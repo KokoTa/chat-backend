@@ -1,14 +1,14 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-10-29 15:16:28
- * @LastEditTime: 2020-11-04 12:16:57
+ * @LastEditTime: 2020-11-09 09:26:50
  * @LastEditors: KokoTa
  * @Description: 旧的参数验证和基础请求测试
  * @FilePath: /uni-wx-be/app/controller/test.js
  */
 'use strict';
 
-const { getWhere, getPageResultVo } = require('../utils');
+const { getPageParams } = require('../utils');
 
 const Controller = require('egg').Controller;
 
@@ -37,15 +37,14 @@ class TestController extends Controller {
     }, this.ctx.query);
 
 
-    const { where, pageNo, pageSize } = getWhere(this.ctx.query);
+    const params = getPageParams(this.ctx.query);
 
     const res = await this.app.model.User.findAndCountAll({
-      where,
-      limit: pageSize,
-      offset: (pageNo - 1) * pageSize,
+      ...params,
     });
 
-    this.ctx.apiSuccess(getPageResultVo(res, pageNo, pageSize, res.count));
+    const { pageNo, pageSize } = this.ctx.query;
+    this.ctx.apiPageSuccess(res, pageNo, pageSize, res.count);
   }
 
   /**

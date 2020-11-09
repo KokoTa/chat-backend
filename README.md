@@ -1,7 +1,7 @@
 <!--
  * @Author: KokoTa
  * @Date: 2020-10-29 15:07:21
- * @LastEditTime: 2020-11-06 16:43:34
+ * @LastEditTime: 2020-11-09 11:19:22
  * @LastEditors: KokoTa
  * @Description: 
  * @FilePath: /uni-wx-be/README.md
@@ -89,3 +89,16 @@ user_id: {
   onDelete: 'cascade', // 删除时操作，父表删除则子表也删除
 },
 ```
+
+### 设置一对多关系
+
+```js
+ApplyModel.associate = () => {
+ // 反向一对多，即多个申请对应一个用户
+ ApplyModel.belongsTo(app.model.User, { foreignKey: 'user_id' });
+};
+```
+
+注意：`sequelize.define(name, attributes, options)` 中的 name 最好要和表名一致，否则会影响到关联查询
+
+比如 User 的 name 为 `user_model`，则关联查询时会有 `"Unknown column 'apply_model.user_model_id' in 'on clause'"` 的错误，因为这里如果不设置 { foreignKey: 'user_id' }，则默认会用 user_model_id 作为查询条件

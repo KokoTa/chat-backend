@@ -1,7 +1,26 @@
 define({ "api": [
   {
+    "type": "get",
+    "url": "/api/user/apply",
+    "title": "好友申请列表",
+    "group": "ApplyGroup",
+    "version": "1.0.0",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{ msg: 'ok', code: 0, data: [] }",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "app/controller/apply.js",
+    "groupTitle": "申请相关",
+    "name": "GetApiUserApply"
+  },
+  {
     "type": "post",
-    "url": "/api/user/addFriend",
+    "url": "/api/user/apply",
     "title": "好友申请",
     "group": "ApplyGroup",
     "version": "1.0.0",
@@ -43,7 +62,26 @@ define({ "api": [
     },
     "filename": "app/controller/apply.js",
     "groupTitle": "申请相关",
-    "name": "PostApiUserAddfriend"
+    "name": "PostApiUserApply"
+  },
+  {
+    "type": "put",
+    "url": "/api/user/apply",
+    "title": "好友申请处理",
+    "group": "ApplyGroup",
+    "version": "1.0.0",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{ msg: '操作成功', code: 0, data: {} }",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "app/controller/apply.js",
+    "groupTitle": "申请相关",
+    "name": "PutApiUserApply"
   },
   {
     "type": "get",

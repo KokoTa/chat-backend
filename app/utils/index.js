@@ -1,18 +1,18 @@
 /* eslint-disable strict */
 module.exports = {
   /**
-   * 参数分离，分离出分页参数和条件参数
+   * 分离分页参数并返回请求 option
    * @param {Object} obj 参数对象
    */
-  getWhere(obj) {
+  getPageParams(obj) {
     const where = { ...obj };
-    const { pageNo = 1, pageSize = 5 } = where;
+    const { pageNo, pageSize } = where;
     delete where.pageNo;
     delete where.pageSize;
     return {
       where,
-      pageNo,
-      pageSize,
+      limit: pageSize,
+      offset: (pageNo - 1) * pageSize,
     };
   },
   /**

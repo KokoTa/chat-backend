@@ -2,7 +2,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-03 11:01:30
- * @LastEditTime: 2020-11-06 09:37:48
+ * @LastEditTime: 2020-11-09 10:44:20
  * @LastEditors: KokoTa
  * @Description: 配置教程 https://zhuanlan.zhihu.com/p/102026758?utm_source=wechat_session
  * @FilePath: /uni-wx-be/sequelize-automate.config.js
@@ -20,6 +20,7 @@ module.exports = {
   options: {
     type: 'egg',
     dir: './app/model',
-    skipTables: [ 'user' ],
+    tables: [],
+    emptyDir: false,
   },
 };

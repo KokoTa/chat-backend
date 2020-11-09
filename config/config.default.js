@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-10-29 15:07:21
- * @LastEditTime: 2020-11-06 16:43:41
+ * @LastEditTime: 2020-11-09 10:31:48
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/config/config.default.js
@@ -46,10 +46,9 @@ module.exports = appInfo => {
         timestamps: true,
         // 字段生产软删除时间戳,
         paranoid: true,
-        // 由于 “underscore option manage foreign keys and create_at, modifed_at fields only.”
-        // 因此这个选项几乎没什么卵用
-        // underscored: true,
-        // sequelize 的自动写入时间戳和软删除默认都是用驼峰的，由于项目统一使用下划线规则，所以需要配置转换策略
+        // 是否开启下划线策略
+        underscored: true,
+        // sequelize 的自动写入时间戳和软删除默认都是用驼峰的，由于项目统一使用下划线规则，所以需要配置转换策略（underscored 这个选项对自动写入和软删除无效，所以需要额外配置）
         createdAt: 'created_at',
         updatedAt: 'updated_at',
         deletedAt: 'deleted_at',

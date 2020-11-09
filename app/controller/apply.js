@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-05 17:05:32
- * @LastEditTime: 2020-11-06 17:39:58
+ * @LastEditTime: 2020-11-09 15:13:25
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/controller/apply.js
@@ -15,7 +15,7 @@ const Controller = require('egg').Controller;
  */
 class ApplyController extends Controller {
   /**
-   * @api {post} /api/user/addFriend 好友申请
+   * @api {post} /api/user/apply 好友申请
    * @apiGroup ApplyGroup
    * @apiVersion  1.0.0
    * @apiParam (body) {int} friend_id 用户名
@@ -25,7 +25,7 @@ class ApplyController extends Controller {
    * @apiSuccessExample {json} Success-Response:
    *    { msg: '申请成功', code: 0, data: {} }
    */
-  async addFriend() {
+  async addApply() {
     // 验证参数
     this.ctx.validate({
       friend_id: {
@@ -51,42 +51,84 @@ class ApplyController extends Controller {
       },
     });
 
-    const { id } = this.ctx.userInfo;
-    const { friend_id, lookme, lookhim } = this.ctx.request.body;
-    // 不能添加自己
-    if (id === friend_id) this.ctx.throw(400, '10009');
-    // 对方是否存在
-    const friend = await this.ctx.model.User.findOne({
-      where: {
-        id: friend_id,
-        status: 1,
-      },
-    });
-    if (!friend) this.ctx.throw(400, '10000');
-    // 之前是否申请过了
-    const apply = await this.ctx.model.Apply.findOne({
-      where: {
-        user_id: id,
-        friend_id,
-        status: [ 'pending', 'agree' ],
-      },
-    });
-    if (apply) this.ctx.throw(400, '10010');
-    // 创建申请
-    const newApply = await this.ctx.model.Apply.create({
-      user_id: id,
-      friend_id,
-      lookme,
-      lookhim,
-    });
-    if (!newApply) this.ctx.throw(400, '10011');
+    await this.ctx.service.apply.addApply();
 
     this.ctx.apiSuccess({}, '申请成功');
   }
 
   /**
-   * 获取好友申请列表
+   * @api {get} /api/user/apply 好友申请列表
+   * @apiGroup ApplyGroup
+   * @apiVersion  1.0.0
+   *
+   * @apiSuccessExample {json} Success-Response:
+   *    { msg: 'ok', code: 0, data: [] }
    */
+  async applyList() {
+    this.ctx.validate({
+      pageNo: {
+        type: 'int',
+        required: false,
+        defValue: 1,
+      },
+      pageSize: {
+        type: 'int',
+        required: false,
+        defValue: 10,
+      },
+    }, this.ctx.query);
+
+    const list = await this.ctx.service.apply.applyList();
+    const { pageNo, pageSize } = this.ctx.query;
+
+    this.ctx.apiPageSuccess(list, pageNo, pageSize, list.count);
+  }
+
+  /**
+   * @api {put} /api/user/apply 好友申请处理
+   * @apiGroup ApplyGroup
+   * @apiVersion  1.0.0
+   *
+   * @apiSuccessExample {json} Success-Response:
+   *    { msg: '操作成功', code: 0, data: {} }
+   */
+  async handleApply() {
+    this.ctx.validate({
+      id: {
+        type: 'int',
+        required: true,
+        desc: '申请ID',
+      },
+      status: {
+        type: 'string',
+        range: {
+          in: [ 'refuse', 'agree', 'ignore' ],
+        },
+        required: true,
+        desc: '申请状态',
+      },
+      lookme: {
+        type: 'int',
+        required: true,
+        range: {
+          in: [ 0, 1 ],
+        },
+        desc: '看我',
+      },
+      lookhim: {
+        type: 'int',
+        required: true,
+        range: {
+          in: [ 0, 1 ],
+        },
+        desc: '看他',
+      },
+    });
+
+    await this.ctx.service.apply.handleApply();
+
+    this.ctx.apiSuccess({}, '操作成功');
+  }
 }
 
 module.exports = ApplyController;

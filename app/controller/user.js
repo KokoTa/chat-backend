@@ -1,8 +1,5 @@
 'use strict';
 
-
-const { getWhere, getPageResultVo } = require('../utils');
-
 const Controller = require('egg').Controller;
 
 /**
@@ -56,18 +53,7 @@ class UserController extends Controller {
       ],
     });
 
-    // 检查用户是否已存在
-    const { username, nickname, email } = this.ctx.request.body;
-    const { Op } = this.ctx.model.Sequelize;
-    const user = await this.ctx.model.User.findOne({
-      where: {
-        [Op.or]: [{ username }, { nickname }, { email }],
-      },
-    });
-    if (user) this.ctx.throw(400, '10001');
-
-    // 新建用户，validate 已经过滤掉了多余的参数，可以省略解构操作
-    await this.ctx.model.User.create(this.ctx.request.body);
+    await this.ctx.service.user.register();
 
     this.ctx.apiSuccess({}, '新建成功');
   }
@@ -113,32 +99,7 @@ class UserController extends Controller {
       },
     });
 
-    // 验证用户是否存在，用户状态是否启用
-    const { username, password } = this.ctx.request.body;
-    const user = await this.ctx.model.User.findOne({
-      where: {
-        username,
-        status: 1,
-      },
-      attributes: {
-        include: [ 'password' ], // 由于全局配置过滤掉了 password，因此这里要加回来
-      },
-    });
-    if (!user) this.ctx.throw(400, '10000');
-
-    // 用户密码校验
-    const checkPasswordFlag = this.app.checkPassword(password, user.password);
-    if (!checkPasswordFlag) this.ctx.throw(400, '10003');
-
-    // 生成 token，user 不是纯对象，需要转化
-    const newUser = { ...user.dataValues };
-    const token = this.ctx.getToken(newUser);
-    newUser.token = token;
-    delete newUser.password;
-
-    // 加入缓存
-    const redisRes = await this.service.cache.set(`user_${user.id}`, token);
-    if (!redisRes) this.ctx.throw(400, '10004');
+    const newUser = await this.ctx.service.user.login();
 
     // 返回用户信息和 token
     this.ctx.apiSuccess(newUser, '登录成功');
@@ -217,14 +178,9 @@ class UserController extends Controller {
     }, this.ctx.query);
 
 
-    const { where, pageNo, pageSize } = getWhere(this.ctx.query);
-    const res = await this.app.model.User.findAndCountAll({
-      where,
-      limit: pageSize,
-      offset: (pageNo - 1) * pageSize,
-    });
-
-    this.ctx.apiSuccess(getPageResultVo(res, pageNo, pageSize, res.count));
+    const res = await this.ctx.service.user.search();
+    const { pageNo, pageSize } = this.ctx.query;
+    this.ctx.apiPageSuccess(res, pageNo, pageSize, res.count);
   }
 }
 

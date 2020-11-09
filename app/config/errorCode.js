@@ -2,7 +2,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-03 12:25:48
- * @LastEditTime: 2020-11-06 09:24:13
+ * @LastEditTime: 2020-11-09 15:20:20
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/config/errorCode.js
@@ -19,4 +19,5 @@ module.exports = {
   10009: '好友申请不能添加自己',
   10010: '好友申请已存在',
   10011: '好友申请失败',
+  10012: '好友申请不存在',
 };

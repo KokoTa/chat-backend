@@ -110,5 +110,11 @@ module.exports = app => {
     }],
   };
   const ApplyModel = sequelize.define('apply_model', attributes, options);
+
+  ApplyModel.associate = () => {
+    // 反向一对多，即多个申请对应一个用户
+    ApplyModel.belongsTo(app.model.User, { foreignKey: 'user_id', as: 'user' });
+  };
+
   return ApplyModel;
 };
