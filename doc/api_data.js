@@ -39,14 +39,14 @@ define({ "api": [
             "type": "int",
             "optional": false,
             "field": "lookme",
-            "description": "<p>昵称</p>"
+            "description": "<p>看我(0, 1)</p>"
           },
           {
             "group": "body",
             "type": "int",
             "optional": false,
             "field": "lookhim",
-            "description": "<p>邮箱</p>"
+            "description": "<p>看他(0, 1)</p>"
           }
         ]
       }
@@ -70,6 +70,40 @@ define({ "api": [
     "title": "好友申请处理",
     "group": "ApplyGroup",
     "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "body": [
+          {
+            "group": "body",
+            "type": "int",
+            "optional": false,
+            "field": "id",
+            "description": "<p>申请id</p>"
+          },
+          {
+            "group": "body",
+            "type": "string",
+            "optional": false,
+            "field": "status",
+            "description": "<p>申请状态</p>"
+          },
+          {
+            "group": "body",
+            "type": "int",
+            "optional": false,
+            "field": "lookme",
+            "description": "<p>看我(0, 1)</p>"
+          },
+          {
+            "group": "body",
+            "type": "int",
+            "optional": false,
+            "field": "lookhim",
+            "description": "<p>看他(0, 1)</p>"
+          }
+        ]
+      }
+    },
     "success": {
       "examples": [
         {

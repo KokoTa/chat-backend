@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-09 14:47:50
- * @LastEditTime: 2020-11-09 15:52:07
+ * @LastEditTime: 2020-11-10 09:39:00
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/service/apply.js
@@ -85,8 +85,10 @@ class ApplyService extends Service {
       if (status === 'agree') {
         // 检查我有没有在他的列表中
         const existHim = await this.ctx.model.Friend.findOne({
-          friend_id: userId,
-          user_id: apply.user_id,
+          where: {
+            friend_id: userId,
+            user_id: apply.user_id,
+          },
         });
         if (!existHim) {
           // 将我加入到他的好友列表
@@ -99,8 +101,10 @@ class ApplyService extends Service {
         }
         // 检查他有没有在我的列表中
         const existMy = await this.ctx.model.Friend.findOne({
-          friend_id: apply.user_id,
-          user_id: userId,
+          where: {
+            friend_id: apply.user_id,
+            user_id: userId,
+          },
         });
         if (!existMy) {
           // 将他加入到我的好友列表

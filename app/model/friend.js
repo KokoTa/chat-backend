@@ -119,5 +119,11 @@ module.exports = app => {
     }],
   };
   const FriendModel = sequelize.define('friend_model', attributes, options);
+
+  FriendModel.associate = () => {
+    // 设置关联
+    FriendModel.belongsTo(app.model.User, { foreignKey: 'friend_id', as: 'friend' });
+  };
+
   return FriendModel;
 };

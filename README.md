@@ -1,7 +1,7 @@
 <!--
  * @Author: KokoTa
  * @Date: 2020-10-29 15:07:21
- * @LastEditTime: 2020-11-09 11:19:22
+ * @LastEditTime: 2020-11-09 16:33:15
  * @LastEditors: KokoTa
  * @Description: 
  * @FilePath: /uni-wx-be/README.md
@@ -43,6 +43,7 @@ $ npm stop
 
 1. 用 [sequelize-cli](https://itbilu.com/nodejs/npm/VyqgRUVf7.html) 生成数据库和数据表，但是有个大问题，无法直接实现表结构更新，需要新建一个 migration 才能更新，具体见 [这里](https://dev.to/anayooleru/modifying-an-existing-sequelize-migration-1mnn)
 2. 用 [sequelize-automate](https://zhuanlan.zhihu.com/p/102026758?utm_source=wechat_session) 生成实体文件
+3. [sequelize中文文档](https://www.bookstack.cn/read/sequelize-5.x-zh/Readme.md)
 
 ### 动态SQL的实现
 
@@ -90,11 +91,11 @@ user_id: {
 },
 ```
 
-### 设置一对多关系
+### 设置关联关系
 
 ```js
 ApplyModel.associate = () => {
- // 反向一对多，即多个申请对应一个用户
+ // 一对一关联
  ApplyModel.belongsTo(app.model.User, { foreignKey: 'user_id' });
 };
 ```

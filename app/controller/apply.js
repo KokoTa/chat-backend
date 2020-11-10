@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-05 17:05:32
- * @LastEditTime: 2020-11-09 15:13:25
+ * @LastEditTime: 2020-11-10 09:35:08
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/controller/apply.js
@@ -19,8 +19,8 @@ class ApplyController extends Controller {
    * @apiGroup ApplyGroup
    * @apiVersion  1.0.0
    * @apiParam (body) {int} friend_id 用户名
-   * @apiParam (body) {int} lookme 昵称
-   * @apiParam (body) {int} lookhim 邮箱
+   * @apiParam (body) {int} lookme 看我(0, 1)
+   * @apiParam (body) {int} lookhim 看他(0, 1)
    *
    * @apiSuccessExample {json} Success-Response:
    *    { msg: '申请成功', code: 0, data: {} }
@@ -88,6 +88,10 @@ class ApplyController extends Controller {
    * @api {put} /api/user/apply 好友申请处理
    * @apiGroup ApplyGroup
    * @apiVersion  1.0.0
+   * @apiParam (body) {int} id 申请id
+   * @apiParam (body) {string} status 申请状态
+   * @apiParam (body) {int} lookme 看我(0, 1)
+   * @apiParam (body) {int} lookhim 看他(0, 1)
    *
    * @apiSuccessExample {json} Success-Response:
    *    { msg: '操作成功', code: 0, data: {} }
