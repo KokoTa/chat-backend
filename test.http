@@ -136,3 +136,15 @@ token: {{token}}
   "lookme": 0,
   "lookhim": 0
 }
+######################################################################################################
+# 添加举报
+POST {{baseUrl}}/user/report HTTP/1.1
+Content-Type: application/json
+token: {{token}}
+
+{
+  "reported_id": 14,
+  "reported_type": "user",
+  "content": "发涩图",
+  "category": "违规内容"
+}

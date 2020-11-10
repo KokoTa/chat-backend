@@ -2,7 +2,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-03 12:25:48
- * @LastEditTime: 2020-11-10 11:56:23
+ * @LastEditTime: 2020-11-10 14:57:44
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/config/errorCode.js
@@ -22,4 +22,6 @@ module.exports = {
   10012: '好友申请不存在',
   10013: '好友不存在',
   10014: '好友不存在或已被拉黑',
+  10015: '不能举报自己',
+  10016: '举报已存在',
 };

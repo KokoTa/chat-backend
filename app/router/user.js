@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-10-29 16:36:28
- * @LastEditTime: 2020-11-10 12:11:45
+ * @LastEditTime: 2020-11-10 14:14:54
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/router/user.js
@@ -25,4 +25,6 @@ module.exports = app => {
   router.post('/api/user/friendBlack', controller.friend.friendBlack);
   router.post('/api/user/friendStar', controller.friend.friendStar);
   router.post('/api/user/friendMoment', controller.friend.friendMoment);
+  // 举报操作
+  router.post('/api/user/report', controller.report.addReport);
 };
