@@ -18,6 +18,7 @@
     "egg-swagger-doc-feat": "^2.2.14",
     "egg-validate": "^2.0.2",
     "egg-valparams": "^1.4.3",
+    "egg-websocket-plugin": "^1.0.0",
     "gulp": "^4.0.2",
     "gulp-apidoc": "^0.2.8",
     "gulp-run": "^1.7.1",

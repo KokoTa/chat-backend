@@ -1,0 +1,60 @@
+/*
+ * @Author: KokoTa
+ * @Date: 2020-11-11 14:41:59
+ * @LastEditTime: 2020-11-11 15:43:55
+ * @LastEditors: KokoTa
+ * @Description:
+ * @FilePath: /uni-wx-be/app/router/ws.js
+ */
+'use strict';
+
+module.exports = app => {
+  const { ws, controller } = app;
+
+  ws.use(async (ctx, next) => {
+    try {
+      // 获取参数 ws//..../api/ws?token=xxx
+      // 检查 token 有效性
+      const { token } = ctx.query;
+      if (!token) {
+        ctx.websocket.send(JSON.stringify({ msg: '未携带凭证' }));
+        return ctx.websocket.close();
+      }
+      let user = await ctx.checkToken(token);
+      if (!user) {
+        ctx.websocket.send(JSON.stringify({ msg: '无效的token' }));
+        return ctx.websocket.close();
+      }
+      // 检查用户有效性
+      user = await ctx.model.User.findOne({ where: { id: user.id } });
+      if (!user) {
+        ctx.websocket.send(JSON.stringify({ msg: '用户不存在' }));
+        return ctx.websocket.close();
+      }
+      if (!user.status) {
+        ctx.websocket.send(JSON.stringify({ msg: '用户被禁用' }));
+        return ctx.websocket.close();
+      }
+
+      // 用户上线，上线的用户都放在 app.ws.user 对象中
+      app.ws.user = app.ws.user ? app.ws.user : {};
+      const userDict = app.ws.user;
+      // 下线其他设备连接
+      if (userDict[user.id]) {
+        userDict[user.id].send(JSON.stringify({ msg: '你的账号在其他设备登录' }));
+        userDict[user.id].close();
+      }
+
+      // 记录当前用户
+      ctx.websocket.user_id = user.id;
+      // 记录当前设备连接
+      userDict[user.id] = ctx.websocket;
+      await next();
+    } catch (error) {
+      ctx.websocket.send(JSON.stringify({ msg: error }));
+      ctx.websocket.close();
+    }
+  });
+
+  ws.route('/api/ws', controller.ws.connect);
+};

@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-10-29 15:07:21
- * @LastEditTime: 2020-11-06 10:56:59
+ * @LastEditTime: 2020-11-11 14:50:46
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/config/plugin.js
@@ -37,5 +37,9 @@ module.exports = {
   redis: {
     enable: true,
     package: 'egg-redis',
+  },
+  websocket: {
+    enable: true,
+    package: 'egg-websocket-plugin',
   },
 };

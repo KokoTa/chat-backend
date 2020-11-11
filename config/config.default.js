@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-10-29 15:07:21
- * @LastEditTime: 2020-11-11 12:13:31
+ * @LastEditTime: 2020-11-11 14:53:02
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/config/config.default.js
@@ -110,6 +110,7 @@ module.exports = appInfo => {
       '/api/register',
       '/api/login',
       /swagger/,
+      '/api/ws',
     ],
   };
 
