@@ -121,8 +121,22 @@ module.exports = app => {
   const FriendModel = sequelize.define('friend_model', attributes, options);
 
   FriendModel.associate = () => {
-    // 设置关联
+    // 设置一对多，这里的外键指的是属表的外键
+    // 这里 foreignKey 指的是 friend 表的外键 friend_id
     FriendModel.belongsTo(app.model.User, { foreignKey: 'friend_id', as: 'friend' });
+    // 设置多对多，多对多一般都有中间表，这里的外键指的都是中间表的外键
+    // sourceKey 指的是 friend 表的连接键
+    // foreignKey 指的是 friend_tag 表的外键 friend_id
+    // otherKey 指的是 friend_tag 表的外键 tag_id
+    // targetKey 指的是 tag 表的连接键
+    FriendModel.belongsToMany(app.model.Tag, {
+      sourceKey: 'id',
+      foreignKey: 'friend_id',
+      otherKey: 'tag_id',
+      targetKey: 'id',
+      through: app.model.FriendTag, // 这里传模型对象或者模型名
+      as: 'tags',
+    });
   };
 
   return FriendModel;

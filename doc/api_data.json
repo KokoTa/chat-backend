@@ -1,7 +1,7 @@
 [
   {
     "type": "get",
-    "url": "/api/user/apply",
+    "url": "/api/apply",
     "title": "好友申请列表",
     "group": "ApplyGroup",
     "version": "1.0.0",
@@ -20,7 +20,7 @@
   },
   {
     "type": "post",
-    "url": "/api/user/apply",
+    "url": "/api/apply",
     "title": "好友申请",
     "group": "ApplyGroup",
     "version": "1.0.0",
@@ -66,7 +66,7 @@
   },
   {
     "type": "put",
-    "url": "/api/user/apply",
+    "url": "/api/apply",
     "title": "好友申请处理",
     "group": "ApplyGroup",
     "version": "1.0.0",
@@ -119,7 +119,7 @@
   },
   {
     "type": "get",
-    "url": "/api/user/search",
+    "url": "/api/search",
     "title": "用户搜索",
     "group": "UserGroup",
     "version": "1.0.0",
@@ -165,7 +165,7 @@
   },
   {
     "type": "post",
-    "url": "/api/user/login",
+    "url": "/api/login",
     "title": "用户登录",
     "group": "UserGroup",
     "version": "1.0.0",
@@ -204,7 +204,7 @@
   },
   {
     "type": "post",
-    "url": "/api/user/logout",
+    "url": "/api/logout",
     "title": "退出登录",
     "group": "UserGroup",
     "version": "1.0.0",
@@ -223,7 +223,7 @@
   },
   {
     "type": "post",
-    "url": "/api/user/register",
+    "url": "/api/register",
     "title": "用户注册",
     "group": "UserGroup",
     "version": "1.0.0",

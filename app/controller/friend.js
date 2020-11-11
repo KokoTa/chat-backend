@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-09 16:07:15
- * @LastEditTime: 2020-11-10 14:27:29
+ * @LastEditTime: 2020-11-10 17:07:37
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/controller/friend.js
@@ -12,7 +12,7 @@ const Controller = require('egg').Controller;
 
 class FriendController extends Controller {
   /**
-   * @api {get} /api/user/friend 好友列表
+   * @api {get} /api/friend 好友列表
    */
   async friendList() {
     const list = await this.ctx.service.friend.friendList();
@@ -20,29 +20,29 @@ class FriendController extends Controller {
   }
 
   /**
-   * @api {get} /api/user/friend 查看好友资料
+   * @api {get} /api/friend 查看好友资料
    */
   async friendDetail() {
     this.ctx.validate({
-      friendId: {
+      friend_id: {
         type: 'int',
         required: true,
       },
     });
     const friend = await this.ctx.service.friend.friendDetail();
-    this.ctx.apiSuccess(friend.friend);
+    this.ctx.apiSuccess(friend);
   }
 
   /**
-   * @api {post} /api/user/friendBlack 移入/移除黑名单
+   * @api {post} /api/friendBlack 移入/移除黑名单
    */
   async friendBlack() {
     this.ctx.validate({
-      friendId: {
+      friend_id: {
         type: 'int',
         required: true,
       },
-      isBlack: {
+      isblack: {
         type: 'int',
         required: true,
         range: {
@@ -55,15 +55,15 @@ class FriendController extends Controller {
   }
 
   /**
-   * @api {post} /api/user/friendStar 设置/取消标星好友
+   * @api {post} /api/friendStar 设置/取消标星好友
    */
   async friendStar() {
     this.ctx.validate({
-      friendId: {
+      friend_id: {
         type: 'int',
         required: true,
       },
-      isStar: {
+      star: {
         type: 'int',
         required: true,
         range: {
@@ -76,11 +76,11 @@ class FriendController extends Controller {
   }
 
   /**
-   * @api {get} /api/user/friendMoment 设置朋友圈权限
+   * @api {get} /api/friendMoment 设置朋友圈权限
    */
   async friendMoment() {
     this.ctx.validate({
-      friendId: {
+      friend_id: {
         type: 'int',
         required: true,
       },

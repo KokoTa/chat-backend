@@ -2,7 +2,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-03 11:01:30
- * @LastEditTime: 2020-11-10 14:10:44
+ * @LastEditTime: 2020-11-11 11:49:08
  * @LastEditors: KokoTa
  * @Description: 配置教程 https://zhuanlan.zhihu.com/p/102026758?utm_source=wechat_session
  * @FilePath: /uni-wx-be/sequelize-automate.config.js

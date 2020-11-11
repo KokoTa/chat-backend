@@ -1,7 +1,7 @@
 <!--
  * @Author: KokoTa
  * @Date: 2020-10-29 15:07:21
- * @LastEditTime: 2020-11-09 16:33:15
+ * @LastEditTime: 2020-11-11 12:30:31
  * @LastEditors: KokoTa
  * @Description: 
  * @FilePath: /uni-wx-be/README.md
@@ -94,9 +94,23 @@ user_id: {
 ### 设置关联关系
 
 ```js
-ApplyModel.associate = () => {
- // 一对一关联
- ApplyModel.belongsTo(app.model.User, { foreignKey: 'user_id' });
+FriendModel.associate = () => {
+  // 设置一对多，这里的外键指的是属表的外键
+  // 这里 foreignKey 指的是 friend 表的外键 friend_id
+  FriendModel.belongsTo(app.model.User, { foreignKey: 'friend_id', as: 'friend' });
+  // 设置多对多，多对多一般都有中间表，这里的外键指的都是中间表的外键
+  // sourceKey 指的是 friend 表的连接键
+  // foreignKey 指的是 friend_tag 表的外键 friend_id
+  // otherKey 指的是 friend_tag 表的外键 tag_id
+  // targetKey 指的是 tag 表的连接键
+  FriendModel.belongsToMany(app.model.Tag, {
+    sourceKey: 'id',
+    foreignKey: 'friend_id',
+    otherKey: 'tag_id',
+    targetKey: 'id',
+    through: app.model.FriendTag, // 这里传模型对象或者模型名
+    as: 'tags',
+  });
 };
 ```
 

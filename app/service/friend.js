@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-09 16:17:19
- * @LastEditTime: 2020-11-10 12:10:25
+ * @LastEditTime: 2020-11-11 14:27:47
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/service/friend.js
@@ -37,16 +37,20 @@ class FriendService extends Service {
   }
 
   async friendDetail() {
-    const { friendId } = this.ctx.query;
+    const { friend_id } = this.ctx.query;
     const { id: userId } = this.ctx.userInfo;
     const friend = await this.ctx.model.Friend.findOne({
       where: {
-        friend_id: friendId,
+        friend_id,
         user_id: userId,
       },
       include: [{
         model: this.ctx.model.User,
         as: 'friend',
+      }, {
+        model: this.ctx.model.Tag,
+        as: 'tags',
+        through: { attributes: [] },
       }],
     });
     if (!friend) this.ctx.throw(400, '好友不存在');
@@ -54,40 +58,40 @@ class FriendService extends Service {
   }
 
   async friendBlack() {
-    const { friendId, isBlack } = this.ctx.request.body;
+    const { friend_id, isblack } = this.ctx.request.body;
     const { id: userId } = this.ctx.userInfo;
     const friend = await this.ctx.model.Friend.findOne({
       where: {
-        friend_id: friendId,
+        friend_id,
         user_id: userId,
       },
     });
     if (!friend) this.ctx.throw(400, '10013');
-    friend.isblack = isBlack;
+    friend.isblack = isblack;
     await friend.save();
   }
 
   async friendStar() {
-    const { friendId, isStar } = this.ctx.request.body;
+    const { friend_id, star } = this.ctx.request.body;
     const { id: userId } = this.ctx.userInfo;
     const friend = await this.ctx.model.Friend.findOne({
       where: {
-        friend_id: friendId,
+        friend_id,
         user_id: userId,
         isblack: 0,
       },
     });
     if (!friend) this.ctx.throw(400, '10014');
-    friend.star = isStar;
+    friend.star = star;
     await friend.save();
   }
 
   async friendMoment() {
-    const { friendId, lookme, lookhim } = this.ctx.request.body;
+    const { friend_id, lookme, lookhim } = this.ctx.request.body;
     const { id: userId } = this.ctx.userInfo;
     const friend = await this.ctx.model.Friend.findOne({
       where: {
-        friend_id: friendId,
+        friend_id,
         user_id: userId,
         isblack: 0,
       },

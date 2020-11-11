@@ -12,7 +12,7 @@ const Controller = require('egg').Controller;
 
 class ReportController extends Controller {
   /**
-   * @api {post} /api/user/report 举报好友/群组
+   * @api {post} /api/report 举报好友/群组
    */
   async addReport() {
     this.ctx.validate({

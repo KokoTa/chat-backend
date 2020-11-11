@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-10-29 15:07:21
- * @LastEditTime: 2020-11-09 10:31:48
+ * @LastEditTime: 2020-11-11 12:13:31
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/config/config.default.js
@@ -107,8 +107,8 @@ module.exports = appInfo => {
   config.auth = {
     enable: true,
     ignore: [
-      '/api/user/register',
-      '/api/user/login',
+      '/api/register',
+      '/api/login',
       /swagger/,
     ],
   };

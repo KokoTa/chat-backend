@@ -15,7 +15,7 @@ const Controller = require('egg').Controller;
  */
 class ApplyController extends Controller {
   /**
-   * @api {post} /api/user/apply 好友申请
+   * @api {post} /api/apply 好友申请
    * @apiGroup ApplyGroup
    * @apiVersion  1.0.0
    * @apiParam (body) {int} friend_id 用户名
@@ -57,7 +57,7 @@ class ApplyController extends Controller {
   }
 
   /**
-   * @api {get} /api/user/apply 好友申请列表
+   * @api {get} /api/apply 好友申请列表
    * @apiGroup ApplyGroup
    * @apiVersion  1.0.0
    *
@@ -85,7 +85,7 @@ class ApplyController extends Controller {
   }
 
   /**
-   * @api {put} /api/user/apply 好友申请处理
+   * @api {put} /api/apply 好友申请处理
    * @apiGroup ApplyGroup
    * @apiVersion  1.0.0
    * @apiParam (body) {int} id 申请id

@@ -153,7 +153,7 @@ function replacePath (path, keys) {
  * Normalize the given path string, returning a regular expression.
  *
  * An empty array can be passed in for the keys, which will hold the
- * placeholder key descriptions. For example, using `/user/:id`, `keys` will
+ * placeholder key descriptions. For example, using `/:id`, `keys` will
  * contain `[{ name: 'id', delimiter: '/', optional: false, repeat: false }]`.
  *
  * @param  {(String|RegExp|Array)} path

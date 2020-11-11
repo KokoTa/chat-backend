@@ -8,7 +8,7 @@ const Controller = require('egg').Controller;
 class UserController extends Controller {
 
   /**
-   * @api {post} /api/user/register 用户注册
+   * @api {post} /api/register 用户注册
    * @apiGroup UserGroup
    * @apiVersion  1.0.0
    * @apiParam (body) {string} username 用户名
@@ -59,7 +59,7 @@ class UserController extends Controller {
   }
 
   /**
-   * @api {post} /api/user/login 用户登录
+   * @api {post} /api/login 用户登录
    * @apiGroup UserGroup
    * @apiVersion  1.0.0
    * @apiParam (body) {string} username 用户名
@@ -106,7 +106,7 @@ class UserController extends Controller {
   }
 
   /**
-   * @api {post} /api/user/logout 退出登录
+   * @api {post} /api/logout 退出登录
    * @apiGroup UserGroup
    * @apiVersion  1.0.0
    *
@@ -122,7 +122,7 @@ class UserController extends Controller {
   }
 
   /**
-   * @api {get} /api/user/search 用户搜索
+   * @api {get} /api/search 用户搜索
    * @apiGroup UserGroup
    * @apiVersion  1.0.0
    * @apiParam (query) {string} username 用户名
