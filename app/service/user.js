@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-09 14:47:46
- * @LastEditTime: 2020-11-09 14:53:01
+ * @LastEditTime: 2020-11-12 12:11:40
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/service/user.js
@@ -60,9 +60,17 @@ class UserService extends Service {
   }
 
   async search() {
+    const { Op } = this.ctx.model.Sequelize;
     const params = getPageParams(this.ctx.query);
+
+    const { id, username } = params.where;
+    const where = {};
+    if (id) where.id = id;
+    if (username) where.username = { [Op.like]: `%${params.where.username}%` };
+
     const res = await this.app.model.User.findAndCountAll({
       ...params,
+      where,
     });
     return res;
   }

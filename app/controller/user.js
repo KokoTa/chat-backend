@@ -163,6 +163,9 @@ class UserController extends Controller {
       username: {
         type: 'string',
       },
+      id: {
+        type: 'int',
+      },
       pageNo: {
         type: 'int',
         min: 1,
