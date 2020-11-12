@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-09 16:17:19
- * @LastEditTime: 2020-11-11 14:27:47
+ * @LastEditTime: 2020-11-12 14:22:13
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/service/friend.js
@@ -53,7 +53,7 @@ class FriendService extends Service {
         through: { attributes: [] },
       }],
     });
-    if (!friend) this.ctx.throw(400, '好友不存在');
+    if (!friend) this.ctx.throw(400, '10013');
     return friend;
   }
 
