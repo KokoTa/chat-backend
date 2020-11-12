@@ -2,7 +2,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-03 11:01:30
- * @LastEditTime: 2020-11-11 11:49:08
+ * @LastEditTime: 2020-11-12 17:06:34
  * @LastEditors: KokoTa
  * @Description: 配置教程 https://zhuanlan.zhihu.com/p/102026758?utm_source=wechat_session
  * @FilePath: /uni-wx-be/sequelize-automate.config.js
@@ -20,7 +20,7 @@ module.exports = {
   options: {
     type: 'egg',
     dir: './app/model',
-    tables: [],
+    tables: [], // 不指定的话会重新生成所有 model
     emptyDir: false,
   },
 };

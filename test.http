@@ -158,3 +158,8 @@ token: {{token}}
   "friend_id": 14,
   "tags": "标签1"
 }
+###
+# 获取标签列表
+GET {{baseUrl}}/tag HTTP/1.1
+Content-Type: application/json
+token: {{token}}

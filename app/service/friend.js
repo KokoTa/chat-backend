@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-09 16:17:19
- * @LastEditTime: 2020-11-12 14:22:13
+ * @LastEditTime: 2020-11-12 15:50:05
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/service/friend.js
@@ -31,7 +31,7 @@ class FriendService extends Service {
       item.username = item.friend.username;
       return item;
     });
-    list = new SortWord(list, 'username');
+    if (list.length > 0) list = new SortWord(list, 'username');
 
     return list;
   }

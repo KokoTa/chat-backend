@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-10 15:18:30
- * @LastEditTime: 2020-11-11 11:29:39
+ * @LastEditTime: 2020-11-12 16:54:58
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/service/tag.js
@@ -79,6 +79,11 @@ class TagService extends Service {
       transaction.rollback();
       this.ctx.throw(500, error);
     }
+  }
+
+  async getTag() {
+    const tagList = await this.ctx.model.Tag.findAll();
+    return tagList;
   }
 }
 
