@@ -124,6 +124,8 @@ module.exports = app => {
     // 设置一对多，这里的外键指的是属表的外键
     // 这里 foreignKey 指的是 friend 表的外键 friend_id
     FriendModel.belongsTo(app.model.User, { foreignKey: 'friend_id', as: 'friend' });
+    // 这里 foreignKey 指的是 friend 表的外键 user_id
+    FriendModel.belongsTo(app.model.User, { foreignKey: 'user_id', as: 'user' });
     // 设置多对多，多对多一般都有中间表，这里的外键指的都是中间表的外键
     // sourceKey 指的是 friend 表的连接键
     // foreignKey 指的是 friend_tag 表的外键 friend_id

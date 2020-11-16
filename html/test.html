@@ -1,0 +1,90 @@
+<!--
+ * @Author: KokoTa
+ * @Date: 2020-11-13 15:09:10
+ * @LastEditTime: 2020-11-16 15:28:38
+ * @LastEditors: KokoTa
+ * @Description: 
+ * @FilePath: /uni-wx-be/html/test.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Websocket及其他功能的测试</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.0/axios.min.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.min.js"></script>
+  <script src="./chat.js"></script>
+  <script src="./util.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <h1>用户连接</h1>
+    <button @click="connect('测试测试6', 15, '测试测试7', 16)">测试测试6 连接</button>
+    <button @click="connect('测试测试7', 16, '测试测试6', 15)">测试测试7 连接</button>
+    <h3>用户状态 - {{ chat && chat.isOnline ? '已连接' : '未连接' }}</h3>
+    <button @click="send('测试测试6', 15, '测试测试7', 16)">测试测试6 发送消息</button>
+    <button @click="send('测试测试7', 16, '测试测试6', 15)">测试测试7 发送消息</button>
+    <div class="content">
+      <div v-for="(item, index) in (chat && chat.chatList) || []" :key="index"
+        :style="item.status === 'pending' || item.status === 'fail' ? 'color: red;' : 'color: green;'">
+        {{ item.from_name }} -> {{ item.data }} -> {{ item.to_name }} {{ item.status ? `-> ${item.status}` : ''}}
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 测试测试6(id 为 15)，测试测试7(id 为 16)
+    new Vue({
+      el: '#app',
+      data: {
+        chat: null,
+        isOnline: false
+      },
+      methods: {
+        async connect(from_name, from_id, to_name, to_id) {
+          axios.post('http://localhost:7001/api/login', {
+            username: from_name,
+            password: 112233
+          }).then((res) => {
+            const userInfo = res.data.data
+            this.chat = new Chat(userInfo)
+            this.chat.connect()
+            this.chat.setToId(to_id)
+          })
+        },
+        async send(from_name, from_id, to_name, to_id) {
+          // 模拟消息
+          let message = {
+            from_id,
+            from_name,
+            from_avatar: '',
+            to_id,
+            to_name,
+            to_avatar: '',
+            type: 'text',
+            data: randomString(10),
+            chat_type: 'user',
+            options: {},
+            status: 'pending'
+          }
+          this.chat.chatList.push(message) // 对于前端来说，发出去的数据不管成不成功，都直接先渲染，后续再根据情况加上发送状态
+          const res = await this.chat.send(message)
+          if (res.code !== 0) {
+            message.status = 'fail'
+          } else {
+            message.id = res.data.id // 该 id 用于撤回消息
+            message.status = 'success'
+          }
+          console.log('发送出的消息: ', message)
+        }
+      }
+    })
+
+
+  </script>
+</body>
+
+</html>

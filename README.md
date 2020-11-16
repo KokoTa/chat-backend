@@ -1,7 +1,7 @@
 <!--
  * @Author: KokoTa
  * @Date: 2020-10-29 15:07:21
- * @LastEditTime: 2020-11-11 16:05:56
+ * @LastEditTime: 2020-11-13 17:02:46
  * @LastEditors: KokoTa
  * @Description: 
  * @FilePath: /uni-wx-be/README.md
@@ -34,3 +34,7 @@ $ npm stop
 - Use `npm run lint` to check code style.
 - Use `npm test` to run unit test.
 - Use `npm run autod` to auto detect dependencies upgrade, see [autod](https://www.npmjs.com/package/autod) for more detail.
+
+### API测试
+
+API 测试文件存放在 `./html` 中

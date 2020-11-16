@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-11 14:41:59
- * @LastEditTime: 2020-11-11 15:43:55
+ * @LastEditTime: 2020-11-16 10:14:10
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/router/ws.js
@@ -9,7 +9,7 @@
 'use strict';
 
 module.exports = app => {
-  const { ws, controller } = app;
+  const { router, ws, controller } = app;
 
   ws.use(async (ctx, next) => {
     try {
@@ -57,4 +57,5 @@ module.exports = app => {
   });
 
   ws.route('/api/ws', controller.ws.connect);
+  router.post('/api/ws/send', controller.ws.send);
 };

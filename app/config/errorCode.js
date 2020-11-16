@@ -2,7 +2,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-03 12:25:48
- * @LastEditTime: 2020-11-11 14:55:25
+ * @LastEditTime: 2020-11-16 14:37:28
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/config/errorCode.js
@@ -25,4 +25,5 @@ module.exports = {
   10015: '不能举报自己',
   10016: '举报已存在',
   10017: '无效的访问',
+  10018: 'socket不存在',
 };
