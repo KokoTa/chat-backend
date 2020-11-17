@@ -1,6 +1,6 @@
 
 @baseUrl = http://localhost:7001/api
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsInVzZXJuYW1lIjoi5rWL6K-V5rWL6K-VNiIsIm5pY2tuYW1lIjoi5pi156ew5rWL6K-VNiIsImVtYWlsIjoi6YKu566x6YKu566xNiIsImF2YXRhciI6IiIsInBob25lIjoiIiwic2V4Ijoi55S3Iiwic3RhdHVzIjoxLCJzaWduIjoiIiwiYXJlYSI6IiIsImNyZWF0ZWRfYXQiOiIyMDIwLTExLTA1VDA2OjUxOjQwLjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyMC0xMS0wNVQwNjo1MTo0MC4wMDBaIiwicGFzc3dvcmQiOiJlMGJjNjBjODI3MTNmNjRlZjhhNTdjMGM0MGQwMmNlMjRmZDAxNDFkNWNjMzA4NjI1OWMxOWIxZTYyYTYyYmVhIiwiaWF0IjoxNjA1NDkyNzE0fQ.ol4o_aXE4jiWIWQ1_xZQSVeXyuHn_Bz4mgF0PlL1cvc
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsInVzZXJuYW1lIjoi5rWL6K-V5rWL6K-VNiIsIm5pY2tuYW1lIjoi5pi156ew5rWL6K-VNiIsImVtYWlsIjoi6YKu566x6YKu566xNiIsImF2YXRhciI6IiIsInBob25lIjoiIiwic2V4Ijoi55S3Iiwic3RhdHVzIjoxLCJzaWduIjoiIiwiYXJlYSI6IiIsImNyZWF0ZWRfYXQiOiIyMDIwLTExLTA1VDA2OjUxOjQwLjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyMC0xMS0wNVQwNjo1MTo0MC4wMDBaIiwicGFzc3dvcmQiOiJlMGJjNjBjODI3MTNmNjRlZjhhNTdjMGM0MGQwMmNlMjRmZDAxNDFkNWNjMzA4NjI1OWMxOWIxZTYyYTYyYmVhIiwiaWF0IjoxNjA1NTg0Njc2fQ.0_-ATerY8JeVy0kuUPEvUmAFBW1gDC-WyeagGp2KX9U
 
 ### 基础测试API
 # 查用户列表
@@ -28,6 +28,26 @@ DELETE http://localhost:7001/api/test/1 HTTP/1.1
 ###
 # 访问无效API
 GET http://localhost:7001/api/fuck HTTP/1.1
+###
+# 原生 SQL 查询
+GET http://localhost:7001/api/rawSqlGetApplyWithUser HTTP/1.1
+token: {{token}}
+###
+# 原生 SQL 更新
+PUT http://localhost:7001/api/rawSqlUpdateUser HTTP/1.1
+token: {{token}}
+###
+# 原生 SQL 新增
+POST http://localhost:7001/api/rawSqlAddUser HTTP/1.1
+token: {{token}}
+###
+# 原生 SQL 软删除
+DELETE http://localhost:7001/api/rawSqlSoftDelUser HTTP/1.1
+token: {{token}}
+###
+# 原生 SQL 硬删除
+DELETE http://localhost:7001/api/rawSqlDelUser HTTP/1.1
+token: {{token}}
 
 ######################################################################################################
 

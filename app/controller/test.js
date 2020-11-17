@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-10-29 15:16:28
- * @LastEditTime: 2020-11-09 09:26:50
+ * @LastEditTime: 2020-11-17 12:09:38
  * @LastEditors: KokoTa
  * @Description: 旧的参数验证和基础请求测试
  * @FilePath: /uni-wx-be/app/controller/test.js
@@ -142,6 +142,77 @@ class TestController extends Controller {
     await user.destroy();
 
     this.ctx.apiSuccess({}, '删除成功');
+  }
+
+  /**
+   * Sequelize 原生查询好友申请及申请者详情
+   */
+  async rawSqlGetApplyWithUser() {
+    const res = await this.ctx.model.query(`
+      select
+        f.id        as id,
+        f.user_id   as user_id,
+        f.friend_id as friend_id,
+        u.id        as 'user.id',
+        u.username  as 'user.username',
+        u.email     as 'user.email'
+      from friend as f
+        left join user as u on f.user_id = u.id
+    `, {
+      nest: true,
+      type: this.ctx.model.Sequelize.QueryTypes.SELECT,
+    });
+    this.ctx.apiSuccess(res);
+  }
+
+  /**
+   * Sequelize 原生更新
+   */
+  async rawSqlUpdateUser() {
+    const res = await this.ctx.model.query(`
+      update user set username = '测5' where user.id = 14
+    `, {
+      type: this.ctx.model.Sequelize.QueryTypes.UPDATE,
+    });
+    this.ctx.apiSuccess(res);
+  }
+
+  /**
+   * Sequelize 原生增加
+   */
+  async rawSqlAddUser() {
+    const res = await this.ctx.model.query(`
+      insert into
+        user(username, nickname, email, password, sex, status)
+        values('a', 'a', 'a', 'a', '男', 1)
+    `, {
+      type: this.ctx.model.Sequelize.QueryTypes.INSERT,
+    });
+    this.ctx.apiSuccess(res);
+  }
+
+  /**
+   * Sequelize 原生软删除
+   */
+  async rawSqlSoftDelUser() {
+    const res = await this.ctx.model.query(`
+      update user set deleted_at = now() where user.id = 19
+    `, {
+      type: this.ctx.model.Sequelize.QueryTypes.UPDATE,
+    });
+    this.ctx.apiSuccess(res);
+  }
+
+  /**
+   * Sequelize 原生硬删除
+   */
+  async rawSqlDelUser() {
+    const res = await this.ctx.model.query(`
+      delete from user where user.id = 19
+    `, {
+      type: this.ctx.model.Sequelize.QueryTypes.DELETE,
+    });
+    this.ctx.apiSuccess(res);
   }
 }
 
