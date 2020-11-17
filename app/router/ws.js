@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-11 14:41:59
- * @LastEditTime: 2020-11-17 11:20:09
+ * @LastEditTime: 2020-11-17 15:33:13
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/router/ws.js
@@ -56,6 +56,10 @@ module.exports = app => {
     }
   });
 
+  // ws 连接
   ws.route('/api/ws', controller.ws.connect);
+  // 发送消息
   router.post('/api/ws/send', controller.ws.send);
+  // 创建群聊
+  router.post('/api/ws/createGroup', controller.ws.createGroup);
 };

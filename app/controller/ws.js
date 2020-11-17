@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-11 14:43:22
- * @LastEditTime: 2020-11-16 15:17:43
+ * @LastEditTime: 2020-11-17 18:10:02
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/controller/ws.js
@@ -136,6 +136,70 @@ class WsController extends Controller {
       }
       // 返回成功
       this.ctx.apiSuccess(message);
+    }
+  }
+
+  /**
+   * @api {post} /api/ws/createGroup 创建群聊
+   */
+  async createGroup() {
+    // 校验参数
+    this.ctx.validate({
+      ids: {
+        type: 'array',
+        required: true,
+      },
+    });
+    const { id: userId } = this.ctx.userInfo;
+    const { ids } = this.ctx.request.body;
+
+    const transaction = await this.ctx.model.transaction();
+    try {
+      // 验证是否为好友
+      const friends = await this.ctx.model.Friend.findAll({
+        where: {
+          user_id: userId,
+          friend_id: ids,
+        },
+        include: [
+          {
+            model: this.ctx.model.User,
+            as: 'friend',
+          },
+        ],
+      }, { transaction });
+      if (!friends.length) this.ctx.throw(400, '10013');
+
+      // 创建群聊
+      const name = friends.map(item => {
+        return item.friend.username;
+      }).join(',');
+      const group = await this.ctx.model.Group.create({
+        name,
+        avatar: '群聊头图',
+        user_id: userId,
+      }, { transaction });
+      if (!group) this.ctx.throw(400, '10019');
+
+      // 群聊加入用户
+      const bulkData = friends.map(item => {
+        return {
+          user_id: item.friend.id,
+          group_id: group.id,
+        };
+      });
+      bulkData.unshift({
+        user_id: userId,
+        group_id: group.id,
+      });
+      const groupUser = await this.ctx.model.GroupUser.bulkCreate(bulkData, { transaction });
+      if (!groupUser) this.ctx.throw(400, '10020');
+      // 提交事务
+      await transaction.commit();
+      this.ctx.apiSuccess();
+    } catch (error) {
+      await transaction.rollback();
+      this.ctx.throw(500, error);
     }
   }
 

@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-09 14:47:50
- * @LastEditTime: 2020-11-10 09:39:00
+ * @LastEditTime: 2020-11-17 16:53:31
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/service/apply.js
@@ -118,6 +118,7 @@ class ApplyService extends Service {
       }
       // 提交事务
       await transaction.commit();
+      this.ctx.apiSuccess();
     } catch (error) {
       await transaction.rollback();
       this.ctx.throw(500, error);

@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-17 15:18:12
- * @LastEditTime: 2020-11-17 15:19:49
+ * @LastEditTime: 2020-11-17 15:30:17
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/model/group.js
@@ -118,5 +118,11 @@ module.exports = app => {
     }],
   };
   const GroupModel = sequelize.define('group_model', attributes, options);
+
+  GroupModel.associate = () => {
+    // 一对多
+    GroupModel.hasMany(app.model.GroupUser);
+  };
+
   return GroupModel;
 };
