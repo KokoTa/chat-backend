@@ -1,18 +1,18 @@
 /*
  * @Author: KokoTa
- * @Date: 2020-11-10 15:08:40
- * @LastEditTime: 2020-11-17 15:09:53
+ * @Date: 2020-11-17 15:04:50
+ * @LastEditTime: 2020-11-17 15:05:26
  * @LastEditors: KokoTa
  * @Description:
- * @FilePath: /uni-wx-be/database/migrations/20201110070840-tag.js
+ * @FilePath: /uni-wx-be/database/migrations/20201117070450-group.js
  */
 'use strict';
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const { INTEGER, STRING, DATE } = Sequelize;
+    const { INTEGER, STRING, DATE, TEXT } = Sequelize;
     // 创建表
-    await queryInterface.createTable('tag', {
+    await queryInterface.createTable('group', {
       id: {
         type: INTEGER(20).UNSIGNED,
         primaryKey: true,
@@ -22,12 +22,17 @@ module.exports = {
         type: STRING(30),
         allowNull: false,
         defaultValue: '',
-        comment: '标签名称',
+        comment: '群组名称',
+      },
+      avatar: {
+        type: STRING(200),
+        allowNull: true,
+        defaultValue: '',
       },
       user_id: {
         type: INTEGER(20).UNSIGNED,
         allowNull: false,
-        comment: '用户id',
+        comment: '群主id',
         //  定义外键（重要）
         references: {
           model: 'user', // 对应表名称（数据表名称）
@@ -36,6 +41,24 @@ module.exports = {
         onUpdate: 'restrict', // 更新时操作
         onDelete: 'cascade', // 删除时操作
       },
+      remark: {
+        type: TEXT,
+        allowNull: true,
+        defaultValue: '',
+        comment: '群公告',
+      },
+      invite_confirm: {
+        type: INTEGER(1),
+        allowNull: false,
+        defaultValue: 1,
+        comment: '邀请确认',
+      },
+      status: {
+        type: INTEGER(1),
+        allowNull: false,
+        defaultValue: 1,
+        comment: '状态',
+      },
       created_at: DATE,
       updated_at: DATE,
       deleted_at: DATE,
@@ -43,6 +66,6 @@ module.exports = {
   },
 
   down: async queryInterface => {
-    await queryInterface.dropTable('tag');
+    await queryInterface.dropTable('group');
   },
 };

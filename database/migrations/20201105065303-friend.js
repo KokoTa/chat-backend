@@ -1,10 +1,10 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-05 14:53:02
- * @LastEditTime: 2020-11-06 09:34:44
+ * @LastEditTime: 2020-11-17 15:09:30
  * @LastEditors: KokoTa
  * @Description:
- * @FilePath: /uni-wx-be/database/migrations/20201105065302-friend.js
+ * @FilePath: /uni-wx-be/database/migrations/20201105065303-friend.js
  */
 'use strict';
 
@@ -69,6 +69,7 @@ module.exports = {
       },
       created_at: DATE,
       updated_at: DATE,
+      deleted_at: DATE,
     });
   },
 

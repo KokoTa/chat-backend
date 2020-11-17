@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-05 14:53:08
- * @LastEditTime: 2020-11-06 09:52:15
+ * @LastEditTime: 2020-11-17 15:09:22
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/database/migrations/20201105065309-apply.js
@@ -64,6 +64,7 @@ module.exports = {
       },
       created_at: DATE,
       updated_at: DATE,
+      deleted_at: DATE,
     });
   },
 
