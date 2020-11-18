@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-17 15:18:12
- * @LastEditTime: 2020-11-17 15:30:17
+ * @LastEditTime: 2020-11-18 14:28:07
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/model/group.js
@@ -120,8 +120,9 @@ module.exports = app => {
   const GroupModel = sequelize.define('group_model', attributes, options);
 
   GroupModel.associate = () => {
-    // 一对多
-    GroupModel.hasMany(app.model.GroupUser);
+    // 这里 targetKey 指的是 group 表的主键 id
+    // 这里 foreignKey 指的是 group_user 表的外键 group_id
+    GroupModel.hasMany(app.model.GroupUser, { targetKey: 'id', foreignKey: 'group_id', as: 'group_user' });
   };
 
   return GroupModel;

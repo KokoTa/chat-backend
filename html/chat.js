@@ -2,10 +2,11 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 /* eslint-disable strict */
+
 /*
  * @Author: KokoTa
  * @Date: 2020-11-13 15:12:26
- * @LastEditTime: 2020-11-16 15:26:21
+ * @LastEditTime: 2020-11-18 16:01:13
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/html/chat.js
@@ -24,8 +25,10 @@ class Chat {
     this.socket = null; // socket实例
     this.isOnline = false; // 是否在线
     this.chatType = 'user'; // 聊天类型
-    this.toId = ''; // 当前正在聊天的ID
-    this.chatList = []; // 聊天记录
+    this.toUserDetail = {}; // 目标用户对象
+    this.toGroupDetail = {}; // 目标群聊对象
+    this.chatList = []; // 单聊记录
+    this.groupChatList = []; // 群聊记录
   }
 
   /**
@@ -55,7 +58,14 @@ class Chat {
   }
   onmessage(msg) {
     const { data: message } = JSON.parse(msg.data);
-    this.chatList.push(message);
+    if (message.chat_type === 'user') {
+      this.toUserDetail = message;
+      this.chatList.push(message);
+    }
+    if (message.chat_type === 'group') {
+      this.toGroupDetail = message.group;
+      this.groupChatList.push(message);
+    }
     console.log('接受到的消息: ', message);
   }
   onclose() {
@@ -77,22 +87,18 @@ class Chat {
     this.socket.close();
     this.socket = null;
   }
-  setToId(id) {
-    this.toId = id;
-  }
-  removeToId() {
-    this.toId = null;
-  }
 
   /**
    * 发送消息
    */
   async send(params) {
-    const { toId, chatType } = this;
+    const { chatType } = this;
+    const { to_id: userId } = this.toUserDetail;
+    const { id: groupId } = this.toGroupDetail;
     const { type, data } = params;
     try {
       const result = await axios.post(this.socketSendUrl, {
-        to_id: toId,
+        to_id: chatType === 'user' ? userId : groupId,
         chat_type: chatType,
         type,
         data,

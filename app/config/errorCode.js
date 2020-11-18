@@ -2,7 +2,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-03 12:25:48
- * @LastEditTime: 2020-11-17 16:50:00
+ * @LastEditTime: 2020-11-18 14:16:43
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/config/errorCode.js
@@ -28,4 +28,6 @@ module.exports = {
   10018: 'socket不存在',
   10019: '群聊创建失败',
   10020: '群聊加入失败',
+  10021: '群聊不存在',
+  10022: '用户不存在于群聊中',
 };
