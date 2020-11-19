@@ -2,7 +2,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-03 12:25:48
- * @LastEditTime: 2020-11-18 14:16:43
+ * @LastEditTime: 2020-11-19 09:36:11
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/config/errorCode.js
@@ -30,4 +30,5 @@ module.exports = {
   10020: '群聊加入失败',
   10021: '群聊不存在',
   10022: '用户不存在于群聊中',
+  10023: '离线消息不存在',
 };

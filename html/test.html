@@ -1,7 +1,7 @@
 <!--
  * @Author: KokoTa
  * @Date: 2020-11-13 15:09:10
- * @LastEditTime: 2020-11-18 17:02:00
+ * @LastEditTime: 2020-11-19 10:06:57
  * @LastEditors: KokoTa
  * @Description: 
  * @FilePath: /uni-wx-be/html/test.html
@@ -32,23 +32,26 @@
     <button @click="connect('测5', 14)">测试5 连接</button>
     <h3>用户状态 - {{ chat && chat.isOnline ? '已连接' : '未连接' }}</h3>
     <h1>单聊测试</h1>
-    <button @click="send({ from_name: '测试测试6', from_id: 15, to_name: '测试测试7', to_id: 16 })">
+    <button @click="sendMessage({ from_name: '测试测试6', from_id: 15, to_name: '测试测试7', to_id: 16 })">
       测试测试6 连接的情况下发送消息给 测试测试7
     </button>
-    <button @click="send({ from_name: '测试测试7', from_id: 16, to_name: '测试测试6', to_id: 15 })">
+    <button @click="sendMessage({ from_name: '测试测试7', from_id: 16, to_name: '测试测试6', to_id: 15 })">
       测试测试7 连接的情况下发送消息给 测试测试6
+    </button>
+    <button @click="getOfflineMessage">
+      测试测试7 获取 测试测试6 发送的离线消息
     </button>
     <h1>群聊测试</h1>
     <button @click="createGroup([14, 16])">
       测试测试6 创建群聊
     </button>
-    <button @click="send({ from_name: '测试测试6', from_id: 15, chat_type: 'group' })">
+    <button @click="sendMessage({ from_name: '测试测试6', from_id: 15, chat_type: 'group' })">
       测试测试6 测试测试6创建群聊后发送群消息
     </button>
-    <button @click="send({ from_name: '测试测试7', from_id: 16, chat_type: 'group' })">
+    <button @click="sendMessage({ from_name: '测试测试7', from_id: 16, chat_type: 'group' })">
       测试测试7 测试测试6创建群聊后发送群消息
     </button>
-    <button @click="send({ from_name: '测5', from_id: 14, chat_type: 'group' })">
+    <button @click="sendMessage({ from_name: '测5', from_id: 14, chat_type: 'group' })">
       测5 测试测试6创建群聊后发送群消息
     </button>
     <div class="content">
@@ -86,7 +89,7 @@
             this.token = userInfo.token
           })
         },
-        async send({ from_name, from_id, to_name, to_id, chat_type = 'user' }) {
+        async sendMessage({ from_name, from_id, to_name, to_id, chat_type = 'user' }) {
           this.chat.chatType = chat_type
           // 单聊我们是直接指定对象的，但是群聊 id 不是固定的，所以测试群聊的前提是先创建群聊
           if (chat_type === 'user') this.chat.toUserDetail = { to_id }
@@ -109,6 +112,24 @@
               token: this.token
             }
           })
+        },
+        async getOfflineMessage() {
+          const res = await axios.get('http://localhost:7001/api/ws/getOfflineMessage?from_id=15&chat_type=user', {
+            headers: {
+              token: this.token
+            }
+          })
+          if (res.data.code === 0) {
+            const messages = res.data.data.map((item) => {
+              return JSON.parse(item)
+            })
+            if (messages.length) {
+              this.chat.chatList = this.chat.chatList.concat(messages)
+              this.chat.chatList.sort((a, b) => {
+                return a.created_at - b.created_at
+              })
+            }
+          }
         }
       }
     })
