@@ -92,5 +92,15 @@ module.exports = app => {
     }],
   };
   const GroupUserModel = sequelize.define('group_user_model', attributes, options);
+
+  GroupUserModel.associate = () => {
+    GroupUserModel.belongsTo(app.model.User, {
+      constraint: false,
+      foreignKey: 'user_id',
+      targetKey: 'id',
+      as: 'user',
+    });
+  };
+
   return GroupUserModel;
 };

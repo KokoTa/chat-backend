@@ -1,19 +1,21 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-11 14:43:22
- * @LastEditTime: 2020-11-19 10:02:01
+ * @LastEditTime: 2020-11-19 15:10:33
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/controller/ws.js
  */
 'use strict';
 
+const { getPageParams } = require('../utils');
+
 const Controller = require('egg').Controller;
 
 class WsController extends Controller {
   /**
    * @api {get} /api/ws websocket连接
-   * @apiGroup UserGroup
+   * @apiGroup WsGroup
    * @apiVersion  1.0.0
    * @apiParam (query) {String} token token字符串
    */
@@ -41,7 +43,7 @@ class WsController extends Controller {
   /**
    * @api {post} /api/ws/send 发送消息
    * @apiDescription 虽然可以直接通过 socket.send 发送消息，但是为了方便和代码清晰，另外写了一个 api 来实现
-   * @apiGroup UserGroup
+   * @apiGroup WsGroup
    * @apiVersion  1.0.0
    * @apiParam (body) {Integer} to_id 朋友ID或群聊ID
    * @apiParam (body) {String} chat_type 聊天类型
@@ -84,7 +86,7 @@ class WsController extends Controller {
 
   /**
    * @api {post} /api/ws/createGroup 创建群聊
-   * @apiGroup UserGroup
+   * @apiGroup WsGroup
    * @apiVersion  1.0.0
    * @apiParam (body) {Array} ids 群聊成员ID集合
    */
@@ -102,6 +104,8 @@ class WsController extends Controller {
 
   /**
    * @api {get} /api/ws/getOfflineMessage 获取离线消息
+   * @apiGroup WsGroup
+   * @apiVersion  1.0.0
    */
   async getOfflineMessage() {
     this.ctx.validate({
@@ -132,6 +136,90 @@ class WsController extends Controller {
     // await this.ctx.service.cache.remove(key);
 
     this.ctx.apiSuccess(messages);
+  }
+
+  /**
+   * @api {get} /api/ws/getGroupList 获取群聊列表
+   * @apiGroup WsGroup
+   * @apiVersion  1.0.0
+   */
+  async getGroupList() {
+    this.ctx.validate({
+      pageNo: {
+        type: 'int',
+        defValue: 1,
+      },
+      pageSize: {
+        type: 'int',
+        defValue: 10,
+      },
+    });
+    const { id } = this.ctx.userInfo;
+    const params = getPageParams(this.ctx.query);
+
+    // 查找所有可用群中包含有我的群聊
+    const groups = await this.ctx.model.Group.findAndCountAll({
+      ...params,
+      where: {
+        status: 1,
+      },
+      include: [
+        {
+          model: this.ctx.model.GroupUser,
+          where: {
+            user_id: id,
+          },
+          as: 'group_user',
+          attributes: [],
+        },
+      ],
+    });
+
+
+    const { pageNo, pageSize } = this.ctx.query;
+    this.ctx.apiPageSuccess(groups, pageNo, pageSize, groups.count);
+  }
+
+  /**
+   * @api {get} /api/ws/getGroupDetail 获取群聊详情
+   * @apiGroup WsGroup
+   * @apiVersion  1.0.0
+   */
+  async getGroupDetail() {
+    this.ctx.validate({
+      group_id: {
+        type: 'int',
+        required: true,
+      },
+    });
+    const { id } = this.ctx.userInfo;
+    const { group_id } = this.ctx.query;
+
+    const groupDetail = await this.ctx.model.Group.findOne({
+      where: {
+        id: group_id,
+        status: 1,
+      },
+      include: [
+        {
+          model: this.ctx.model.GroupUser,
+          as: 'group_user',
+          where: {
+            user_id: id,
+          },
+          include: [
+            {
+              model: this.ctx.model.User,
+              as: 'user',
+            },
+          ],
+        },
+      ],
+    });
+    if (!groupDetail) this.ctx.throw(400, '10021');
+    if (!groupDetail.group_user.length) this.ctx.throw(400, '10022');
+
+    this.ctx.apiSuccess(groupDetail);
   }
 }
 

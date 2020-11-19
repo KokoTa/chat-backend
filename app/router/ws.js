@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-11 14:41:59
- * @LastEditTime: 2020-11-19 09:07:20
+ * @LastEditTime: 2020-11-19 12:28:18
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/router/ws.js
@@ -64,4 +64,8 @@ module.exports = app => {
   router.post('/api/ws/createGroup', controller.ws.createGroup);
   // 获取离线消息
   router.get('/api/ws/getOfflineMessage', controller.ws.getOfflineMessage);
+  // 获取群聊列表
+  router.get('/api/ws/getGroupList', controller.ws.getGroupList);
+  // 获取群聊详情
+  router.get('/api/ws/getGroupDetail', controller.ws.getGroupDetail);
 };

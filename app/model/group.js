@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-17 15:18:12
- * @LastEditTime: 2020-11-18 14:28:07
+ * @LastEditTime: 2020-11-19 14:22:16
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/model/group.js
