@@ -1,14 +1,12 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-11 14:43:22
- * @LastEditTime: 2020-11-20 14:47:39
+ * @LastEditTime: 2020-11-20 17:33:19
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/controller/ws.js
  */
 'use strict';
-
-const { getPageParams } = require('../utils');
 
 const Controller = require('egg').Controller;
 
@@ -121,21 +119,8 @@ class WsController extends Controller {
         required: true,
       },
     });
-    const { from_id, chat_type } = this.ctx.query;
-    const { id } = this.ctx.userInfo;
 
-    // 拿的是别人发给我的消息
-    let key = '';
-    if (chat_type === 'user') key = `message_offline_${from_id}_to_user_${id}`;
-    if (chat_type === 'group') key = `message_offline_${from_id}_to_group_user_${id}`;
-
-    // 获取离线消息
-    const messages = await this.ctx.service.cache.getList(key);
-    if (!messages) this.ctx.throw(400, '10023');
-    // 清除离线消息
-    // await this.ctx.service.cache.remove(key);
-
-    this.ctx.apiSuccess(messages);
+    await this.ctx.service.ws.getOfflineMessage();
   }
 
   /**
@@ -154,30 +139,8 @@ class WsController extends Controller {
         defValue: 10,
       },
     });
-    const { id } = this.ctx.userInfo;
-    const params = getPageParams(this.ctx.query);
 
-    // 查找所有可用群中包含有我的群聊
-    const groups = await this.ctx.model.Group.findAndCountAll({
-      ...params,
-      where: {
-        status: 1,
-      },
-      include: [
-        {
-          model: this.ctx.model.GroupUser,
-          where: {
-            user_id: id,
-          },
-          as: 'group_user',
-          attributes: [],
-        },
-      ],
-    });
-
-
-    const { pageNo, pageSize } = this.ctx.query;
-    this.ctx.apiPageSuccess(groups, pageNo, pageSize, groups.count);
+    await this.ctx.service.ws.getGroupList();
   }
 
   /**
@@ -192,34 +155,44 @@ class WsController extends Controller {
         required: true,
       },
     });
-    const { id } = this.ctx.userInfo;
-    const { group_id } = this.ctx.query;
 
-    const groupDetail = await this.ctx.model.Group.findOne({
-      where: {
-        id: group_id,
-        status: 1,
+    await this.ctx.service.ws.getGroupDetail();
+  }
+
+  /**
+   * @api {put} /api/ws/updateGroupUserNickname 修改群昵称
+   * @apiGroup WsGroup
+   * @apiVersion  1.0.0
+   */
+  async updateGroupUserNickname() {
+    this.ctx.validate({
+      group_id: {
+        type: 'int',
+        required: true,
       },
-      include: [
-        {
-          model: this.ctx.model.GroupUser,
-          as: 'group_user',
-          where: {
-            user_id: id,
-          },
-          include: [
-            {
-              model: this.ctx.model.User,
-              as: 'user',
-            },
-          ],
-        },
-      ],
+      nickname: {
+        type: 'string',
+        required: true,
+      },
     });
-    if (!groupDetail) this.ctx.throw(400, '10021');
-    if (!groupDetail.group_user.length) this.ctx.throw(400, '10022');
 
-    this.ctx.apiSuccess(groupDetail);
+    await this.ctx.service.ws.updateGroupUserNickname();
+  }
+
+  /**
+   * @api {post} /api/ws/quitGroup 退出和解散群聊
+   * @apiGroup WsGroup
+   * @apiVersion  1.0.0
+   */
+  async quitGroup() {
+    this.ctx.validate({
+      group_id: {
+        type: 'int',
+        required: true,
+      },
+    });
+
+    await this.ctx.service.ws.quitGroup();
   }
 }
 

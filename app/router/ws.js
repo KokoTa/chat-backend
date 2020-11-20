@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-11 14:41:59
- * @LastEditTime: 2020-11-19 12:28:18
+ * @LastEditTime: 2020-11-20 17:24:47
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/router/ws.js
@@ -68,4 +68,8 @@ module.exports = app => {
   router.get('/api/ws/getGroupList', controller.ws.getGroupList);
   // 获取群聊详情
   router.get('/api/ws/getGroupDetail', controller.ws.getGroupDetail);
+  // 修改群中昵称
+  router.put('/api/ws/updateGroupUserNickname', controller.ws.updateGroupUserNickname);
+  // 退出和解散群聊
+  router.post('/api/ws/quitGroup', controller.ws.quitGroup);
 };
