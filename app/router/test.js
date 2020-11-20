@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-10-29 16:36:28
- * @LastEditTime: 2020-11-17 12:09:54
+ * @LastEditTime: 2020-11-20 14:55:28
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/router/test.js
@@ -16,4 +16,5 @@ module.exports = app => {
   router.post('/api/rawSqlAddUser', controller.test.rawSqlAddUser);
   router.delete('/api/rawSqlSoftDelUser', controller.test.rawSqlSoftDelUser);
   router.delete('/api/rawSqlDelUser', controller.test.rawSqlDelUser);
+  router.get('/api/getTestUserDesc', controller.test.getTestUserDesc);
 };

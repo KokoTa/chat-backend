@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-10-29 15:16:28
- * @LastEditTime: 2020-11-17 12:09:38
+ * @LastEditTime: 2020-11-20 14:53:26
  * @LastEditors: KokoTa
  * @Description: 旧的参数验证和基础请求测试
  * @FilePath: /uni-wx-be/app/controller/test.js
@@ -212,6 +212,21 @@ class TestController extends Controller {
     `, {
       type: this.ctx.model.Sequelize.QueryTypes.DELETE,
     });
+    this.ctx.apiSuccess(res);
+  }
+
+  /**
+   * Sequelize 无显示外键下的关联测试
+   */
+  async getTestUserDesc() {
+    const res = await this.ctx.model.TestUser.findAll({
+      include: [
+        {
+          model: this.ctx.model.TestUserDesc,
+        },
+      ],
+    });
+
     this.ctx.apiSuccess(res);
   }
 }

@@ -48,6 +48,10 @@ token: {{token}}
 # 原生 SQL 硬删除
 DELETE http://localhost:7001/api/rawSqlDelUser HTTP/1.1
 token: {{token}}
+###
+# 检测没有数据库外键，但是设置了模型关联关系，Sequelize 是否能查询到（答案是可以的）
+GET http://localhost:7001/api/getTestUserDesc HTTP/1.1
+token: {{token}}
 
 ######################################################################################################
 
