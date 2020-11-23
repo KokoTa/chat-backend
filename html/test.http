@@ -247,3 +247,23 @@ token: {{token}}
 {
   "group_id": 37
 }
+###
+# 获取群二维码
+GET {{baseUrl}}/ws/getGroupQRCode?group_id=1 HTTP/1.1
+Content-Type: application/json
+token: {{token}}
+
+{
+  "group_id": 37
+}
+######################################################################################################
+# 文件上传(阿里云OSS)
+POST {{baseUrl}}/upload HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="files"; filename="test.png"
+Content-Type: image/png
+
+< ./test.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--

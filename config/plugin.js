@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-10-29 15:07:21
- * @LastEditTime: 2020-11-11 14:50:46
+ * @LastEditTime: 2020-11-23 12:08:51
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/config/plugin.js
@@ -41,5 +41,9 @@ module.exports = {
   websocket: {
     enable: true,
     package: 'egg-websocket-plugin',
+  },
+  oss: {
+    enable: true,
+    package: 'egg-oss',
   },
 };

@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-11 14:41:59
- * @LastEditTime: 2020-11-20 17:24:47
+ * @LastEditTime: 2020-11-23 11:39:54
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/router/ws.js
@@ -72,4 +72,6 @@ module.exports = app => {
   router.put('/api/ws/updateGroupUserNickname', controller.ws.updateGroupUserNickname);
   // 退出和解散群聊
   router.post('/api/ws/quitGroup', controller.ws.quitGroup);
+  // 获取群二维码
+  router.get('/api/ws/getGroupQRCode', controller.ws.getGroupQRCode);
 };

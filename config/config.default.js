@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-10-29 15:07:21
- * @LastEditTime: 2020-11-16 10:48:44
+ * @LastEditTime: 2020-11-23 14:35:18
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/config/config.default.js
@@ -80,6 +80,19 @@ module.exports = appInfo => {
         db: 0,
       },
     },
+    // 阿里云 oss 配置
+    multipart: {
+      mode: 'file',
+    },
+    oss: {
+      client: {
+        accessKeyId: 'LTAI4FySnp2emp6ePaYN1ywb',
+        accessKeySecret: 'cWY03GhwToGPlCm9Mn2ehL7YPOQVsZ',
+        bucket: 'kokota',
+        endpoint: 'oss-cn-guangzhou.aliyuncs.com',
+        timeout: '60s',
+      },
+    },
     // 错误处理，可以用中间件来实现，但是中间件无法完全捕获所有错误（比如无法捕获 json 解析错误）
     onerror: {
       all(err, ctx) {
@@ -111,6 +124,7 @@ module.exports = appInfo => {
       '/api/login',
       /swagger/,
       /^\/api\/ws$/,
+      '/api/upload',
     ],
   };
 

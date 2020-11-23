@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-11 14:43:22
- * @LastEditTime: 2020-11-20 17:33:19
+ * @LastEditTime: 2020-11-23 11:43:14
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/controller/ws.js
@@ -193,6 +193,25 @@ class WsController extends Controller {
     });
 
     await this.ctx.service.ws.quitGroup();
+  }
+
+  /**
+   * @api {post} /api/ws/getGroupQRCode 获取二维码
+   * @apiGroup WsGroup
+   * @apiVersion  1.0.0
+   */
+  async getGroupQRCode() {
+    this.ctx.validate({
+      group_id: {
+        type: 'int',
+        required: true,
+      },
+    });
+    const { group_id } = this.ctx.query;
+    const url = await this.ctx.getQRCode(JSON.stringify({
+      group_id,
+    }));
+    this.ctx.apiSuccess(url);
   }
 }
 

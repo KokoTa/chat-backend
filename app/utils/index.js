@@ -1,3 +1,11 @@
+/*
+ * @Author: KokoTa
+ * @Date: 2020-11-02 16:54:17
+ * @LastEditTime: 2020-11-23 14:05:16
+ * @LastEditors: KokoTa
+ * @Description:
+ * @FilePath: /uni-wx-be/app/utils/index.js
+ */
 /* eslint-disable strict */
 module.exports = {
   /**
@@ -32,5 +40,9 @@ module.exports = {
       },
     };
     return result;
+  },
+  // 生成唯一ID
+  getRandomID(length) {
+    return Number(Math.random().toString().substr(3, length) + Date.now()).toString(36);
   },
 };

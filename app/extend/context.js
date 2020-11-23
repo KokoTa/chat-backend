@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-03 17:49:01
- * @LastEditTime: 2020-11-18 16:05:56
+ * @LastEditTime: 2020-11-23 11:40:29
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/extend/context.js
@@ -9,6 +9,7 @@
 'use strict';
 
 const { getPageResultVo } = require('../utils');
+const QRCode = require('qrcode');
 
 module.exports = {
   apiSuccess(data = {}, msg = 'ok', status = 200, code = 0) {
@@ -47,5 +48,9 @@ module.exports = {
         data: message,
       }));
     }
+  },
+  async getQRCode(text = 'hello word') {
+    const url = await QRCode.toDataURL(text);
+    return url;
   },
 };

@@ -2,7 +2,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-03 12:25:48
- * @LastEditTime: 2020-11-20 17:37:38
+ * @LastEditTime: 2020-11-23 14:10:29
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/config/errorCode.js
@@ -33,4 +33,6 @@ module.exports = {
   10023: '离线消息不存在',
   10024: '群聊中没有任何用户',
   10025: '群聊不存在',
+  10026: '请选择上传文件',
+  10027: '上传失败',
 };
