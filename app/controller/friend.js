@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-09 16:07:15
- * @LastEditTime: 2020-11-10 17:07:37
+ * @LastEditTime: 2020-11-25 10:38:25
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/controller/friend.js
@@ -101,6 +101,38 @@ class FriendController extends Controller {
     });
     await this.ctx.service.friend.friendMoment();
     this.ctx.apiSuccess({}, '操作成功');
+  }
+
+  /**
+   * @api {delete} /api/friendDelete 删除好友
+   */
+  async friendDelete() {
+    this.ctx.validate({
+      friend_id: {
+        type: 'int',
+        required: true,
+      },
+    });
+
+    const { id } = this.ctx.userInfo;
+    const { friend_id } = this.ctx.request.body;
+
+    // 删除我对他的好友关系
+    await this.ctx.model.Friend.destroy({
+      where: {
+        user_id: id,
+        friend_id,
+      },
+    });
+    // 删除他对我的好友关系
+    await this.ctx.model.Friend.destroy({
+      where: {
+        user_id: friend_id,
+        friend_id: id,
+      },
+    });
+
+    this.ctx.apiSuccess();
   }
 }
 

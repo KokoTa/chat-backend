@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-10-29 16:36:28
- * @LastEditTime: 2020-11-10 15:23:59
+ * @LastEditTime: 2020-11-25 10:35:06
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/router/friend.js
@@ -16,4 +16,5 @@ module.exports = app => {
   router.post('/api/friendBlack', controller.friend.friendBlack);
   router.post('/api/friendStar', controller.friend.friendStar);
   router.post('/api/friendMoment', controller.friend.friendMoment);
+  router.delete('/api/friendDelete', controller.friend.friendDelete);
 };

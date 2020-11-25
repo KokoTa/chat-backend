@@ -160,6 +160,15 @@ token: {{token}}
   "lookme": 0,
   "lookhim": 0
 }
+###
+# 好友删除
+DELETE {{baseUrl}}/friendDelete HTTP/1.1
+Content-Type: application/json
+token: {{token}}
+
+{
+  "friend_id": 14
+}
 ######################################################################################################
 # 添加举报
 POST {{baseUrl}}/report HTTP/1.1
