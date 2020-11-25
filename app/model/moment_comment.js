@@ -106,10 +106,12 @@ module.exports = app => {
     MomentCommentModel.belongsTo(app.model.User, {
       targetKey: 'id',
       foreignKey: 'user_id',
+      as: 'user_model',
     });
     MomentCommentModel.belongsTo(app.model.User, {
       targetKey: 'id',
       foreignKey: 'reply_id',
+      as: 'user_reply_model',
     });
   };
 

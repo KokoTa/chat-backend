@@ -21,4 +21,5 @@ module.exports = app => {
   require('./router/ws')(app);
   require('./router/common')(app);
   require('./router/fava')(app);
+  require('./router/moment')(app);
 };

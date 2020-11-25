@@ -2,7 +2,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-03 12:25:48
- * @LastEditTime: 2020-11-25 09:33:34
+ * @LastEditTime: 2020-11-25 15:43:12
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/config/errorCode.js
@@ -36,4 +36,7 @@ module.exports = {
   10026: '请选择上传文件',
   10027: '上传失败',
   10028: '收藏创建失败',
+  10029: '请传入对应类型值',
+  10030: '朋友圈新建失败',
+  10031: '你没有权限这样做',
 };

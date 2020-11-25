@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-09 16:07:15
- * @LastEditTime: 2020-11-25 10:38:25
+ * @LastEditTime: 2020-11-25 17:53:03
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/controller/friend.js
@@ -132,7 +132,32 @@ class FriendController extends Controller {
       },
     });
 
+    // 删除朋友圈记录
+    this.friendTimelineDelete(friend_id, id);
+    this.friendTimelineDelete(id, friend_id);
+
     this.ctx.apiSuccess();
+  }
+
+  /**
+   * @api {delete} /api/friendTimelineDelete 删除非好友朋友圈时间轴记录
+   */
+  async friendTimelineDelete(friend_id, user_id) {
+    // 找到朋友发的朋友圈
+    const moments = await this.ctx.model.findAll({
+      where: {
+        user_id: friend_id,
+      },
+    });
+    const momentIds = moments.map(moment => moment.id);
+
+    // 删除我时间轴中关于他的记录
+    await this.ctx.model.MomentTimeline.destroy({
+      where: {
+        user_id,
+        moment_id: momentIds,
+      },
+    });
   }
 }
 
