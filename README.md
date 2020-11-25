@@ -1,7 +1,7 @@
 <!--
  * @Author: KokoTa
  * @Date: 2020-10-29 15:07:21
- * @LastEditTime: 2020-11-23 15:23:51
+ * @LastEditTime: 2020-11-23 15:44:50
  * @LastEditors: KokoTa
  * @Description: 
  * @FilePath: /uni-wx-be/README.md
@@ -37,4 +37,4 @@ $ npm stop
 
 ### API测试
 
-API 测试文件存放在 `./html` 中
+API 测试文件和流程图存放在 `./html` 中

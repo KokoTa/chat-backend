@@ -2,7 +2,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-03 12:25:48
- * @LastEditTime: 2020-11-23 14:10:29
+ * @LastEditTime: 2020-11-25 09:33:34
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/config/errorCode.js
@@ -35,4 +35,5 @@ module.exports = {
   10025: '群聊不存在',
   10026: '请选择上传文件',
   10027: '上传失败',
+  10028: '收藏创建失败',
 };

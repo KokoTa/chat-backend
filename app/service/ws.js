@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-18 17:44:22
- * @LastEditTime: 2020-11-20 18:15:23
+ * @LastEditTime: 2020-11-24 17:51:13
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/service/ws.js
@@ -372,6 +372,52 @@ class WsService extends Service {
     }
 
     this.ctx.apiSuccess();
+  }
+
+  async recall() {
+    const { to_id, id, chat_type } = this.ctx.request.body;
+    const { id: userId } = this.ctx.userInfo;
+
+    const message = {
+      id,
+      from_id: userId,
+      to_id,
+      chat_type,
+      type: 'recall',
+    };
+
+    // 单聊
+    if (chat_type === 'user') {
+      this.ctx.sendOrSaveMessage(userId, message);
+      this.ctx.sendOrSaveMessage(to_id, message);
+      this.ctx.apiSuccess(message);
+      return;
+    }
+
+    // 群聊
+    if (chat_type === 'group') {
+      const group = await this.ctx.model.Group.findOne({
+        where: {
+          id: to_id,
+          status: 1,
+        },
+        include: [
+          {
+            model: this.ctx.model.GroupUser,
+            as: 'group_user',
+          },
+        ],
+      });
+      if (!group) this.ctx.throw(400, '10025');
+      if (!group.group_user.length) this.ctx.throw(400, '10024');
+      group.group_user.forEach(item => {
+        this.ctx.sendOrSaveMessage(item.user_id, message);
+      });
+      this.ctx.apiSuccess(message);
+      return;
+    }
+
+    this.ctx.apiFail();
   }
 }
 

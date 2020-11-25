@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-11 14:43:22
- * @LastEditTime: 2020-11-23 11:43:14
+ * @LastEditTime: 2020-11-24 16:03:52
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/controller/ws.js
@@ -68,7 +68,7 @@ class WsController extends Controller {
         type: 'string',
         required: true,
         range: {
-          in: [ 'text', 'image', 'audio', 'video' ],
+          in: [ 'text', 'image', 'audio', 'video' ], // 还有一些其他类型，比如 system（创建群聊）、recall（撤回消息）
         },
         desc: '聊天内容类型',
       },
@@ -212,6 +212,35 @@ class WsController extends Controller {
       group_id,
     }));
     this.ctx.apiSuccess(url);
+  }
+
+  /**
+   * @api {post} /api/ws/recall 消息撤回
+   * @apiGroup WsGroup
+   * @apiVersion  1.0.0
+   */
+  async recall() {
+    this.ctx.validate({
+      to_id: {
+        type: 'int',
+        required: true,
+        desc: '接收人/群 ID',
+      },
+      id: {
+        type: 'int',
+        required: true,
+        desc: '消息ID',
+      },
+      chat_type: {
+        type: 'string',
+        range: {
+          in: [ 'user', 'group' ],
+        },
+        desc: '聊天类型',
+      },
+    });
+
+    await this.service.ws.recall();
   }
 }
 

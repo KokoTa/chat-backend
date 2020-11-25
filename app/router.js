@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-10-29 15:07:21
- * @LastEditTime: 2020-11-23 14:31:16
+ * @LastEditTime: 2020-11-25 09:35:03
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/router.js
@@ -20,4 +20,5 @@ module.exports = app => {
   require('./router/tag')(app);
   require('./router/ws')(app);
   require('./router/common')(app);
+  require('./router/fava')(app);
 };
