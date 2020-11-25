@@ -1,3 +1,11 @@
+/*
+ * @Author: KokoTa
+ * @Date: 2020-11-25 11:06:36
+ * @LastEditTime: 2020-11-25 11:27:28
+ * @LastEditors: KokoTa
+ * @Description:
+ * @FilePath: /uni-wx-be/app/model/moment_like.js
+ */
 'use strict';
 
 module.exports = app => {
@@ -83,5 +91,13 @@ module.exports = app => {
     }],
   };
   const MomentLikeModel = sequelize.define('moment_like_model', attributes, options);
+
+  MomentLikeModel.associate = () => {
+    MomentLikeModel.belongsTo(app.model.User, {
+      targetKey: 'id',
+      foreignKey: 'user_id',
+    });
+  };
+
   return MomentLikeModel;
 };

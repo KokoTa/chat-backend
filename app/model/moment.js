@@ -119,5 +119,24 @@ module.exports = app => {
     }],
   };
   const MomentModel = sequelize.define('moment_model', attributes, options);
+
+  MomentModel.associate = () => {
+    // 关联用户，多个朋友圈关联一个用户，所以用 belongsTo，反向一对多，即多对一
+    MomentModel.belongsTo(app.model.User, {
+      targetKey: 'id',
+      foreignKey: 'user_id',
+    });
+    // 关联点赞
+    MomentModel.hasMany(app.model.MomentLike, {
+      targetKey: 'id',
+      foreignKey: 'moment_id',
+    });
+    // 关联评论
+    MomentModel.hasMany(app.model.MomentComment, {
+      targetKey: 'id',
+      foreignKey: 'moment_id',
+    });
+  };
+
   return MomentModel;
 };

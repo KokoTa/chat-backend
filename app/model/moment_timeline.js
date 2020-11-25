@@ -92,5 +92,17 @@ module.exports = app => {
     }],
   };
   const MomentTimelineModel = sequelize.define('moment_timeline_model', attributes, options);
+
+  MomentTimelineModel.associate = () => {
+    MomentTimelineModel.belongsTo(app.model.User, {
+      targetKey: 'id',
+      foreignKey: 'user_id',
+    });
+    MomentTimelineModel.belongsTo(app.model.Moment, {
+      targetKey: 'id',
+      foreignKey: 'moment_id',
+    });
+  };
+
   return MomentTimelineModel;
 };

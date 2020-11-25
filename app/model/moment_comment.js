@@ -101,5 +101,17 @@ module.exports = app => {
     }],
   };
   const MomentCommentModel = sequelize.define('moment_comment_model', attributes, options);
+
+  MomentCommentModel.associate = () => {
+    MomentCommentModel.belongsTo(app.model.User, {
+      targetKey: 'id',
+      foreignKey: 'user_id',
+    });
+    MomentCommentModel.belongsTo(app.model.User, {
+      targetKey: 'id',
+      foreignKey: 'reply_id',
+    });
+  };
+
   return MomentCommentModel;
 };
