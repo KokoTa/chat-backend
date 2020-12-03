@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-10 15:18:30
- * @LastEditTime: 2020-11-12 16:54:58
+ * @LastEditTime: 2020-12-03 15:03:05
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/service/tag.js
@@ -30,6 +30,7 @@ class TagService extends Service {
     });
     if (!friend) this.ctx.throw(400, '10014');
 
+    // 插入标签事务
     const transaction = await this.ctx.model.transaction();
     try {
       // 过滤出新标签
@@ -47,12 +48,24 @@ class TagService extends Service {
         user_id: userId,
       })), { transaction });
 
+      transaction.commit();
+    } catch (error) {
+      transaction.rollback();
+      this.ctx.throw(500, error);
+    }
+
+    // 设置朋友标签事务
+    const transaction2 = await this.ctx.model.transaction();
+    try {
+      const tagList = tags.split(',');
       // 获取传入的标签
+      // 这里的代码为什么不能合并到上面的事务中呢？
+      // 答：上面的事务插入后并没有马上提交事务，此时 tag 表中是没有插入的数据的，所以新建了一个事务保证能读到插入的值
       const tagResult = await this.ctx.model.Tag.findAll({
         where: {
           name: tagList,
         },
-      }, { transaction });
+      }, { transaction2 });
       // 添加新标签，删除旧标签，比如旧标签 1 2 3，传入 2 3 4，则要删 1 增 4，变为 2 3 4
       const oldIds = friend.tags.map(item => item.id);
       const newIds = tagResult.map(item => item.id);
@@ -65,25 +78,51 @@ class TagService extends Service {
       await this.ctx.model.FriendTag.bulkCreate(addIds.map(id => ({
         friend_id: friend.id,
         tag_id: id,
-      })), { transaction });
+      })), { transaction2 });
       // 删除关联关系
       await this.ctx.model.FriendTag.destroy({
         where: {
           friend_id: friend.id,
           tag_id: delIds,
         },
-      }, { transaction });
-
-      transaction.commit();
+      }, { transaction2 });
     } catch (error) {
-      transaction.rollback();
+      transaction2.rollback();
       this.ctx.throw(500, error);
     }
   }
 
   async getTag() {
-    const tagList = await this.ctx.model.Tag.findAll();
+    const { id } = this.ctx.userInfo;
+    const tagList = await this.ctx.model.Tag.findAll({
+      where: {
+        user_id: id,
+      },
+    });
     return tagList;
+  }
+
+  async friendTagList() {
+    const { friend_id: friendId } = this.ctx.query;
+    const { id: userId } = this.ctx.userInfo;
+
+    const tags = await this.ctx.model.Tag.findAll({
+      where: {
+        user_id: userId,
+      },
+      include: [
+        {
+          model: this.ctx.model.Friend,
+          as: 'friends',
+          where: {
+            id: friendId,
+          },
+          attributes: [],
+        },
+      ],
+    });
+
+    return tags;
   }
 }
 

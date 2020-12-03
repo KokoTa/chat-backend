@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-18 17:44:22
- * @LastEditTime: 2020-11-24 17:51:13
+ * @LastEditTime: 2020-12-03 11:57:47
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/service/ws.js
@@ -418,6 +418,47 @@ class WsService extends Service {
     }
 
     this.ctx.apiFail();
+  }
+
+  async kick() {
+    const { id: userId } = this.ctx.userInfo;
+    const { to_id: friendId, group_id: groupId } = this.ctx.request.body;
+    // 不能踢自己
+    if (userId === friendId) this.ctx.throw(400, '10032');
+    // 验证群聊是否存在
+    const group = await this.ctx.model.Group.findOne({
+      where: {
+        id: groupId,
+        status: 1,
+      },
+      include: [
+        {
+          model: this.ctx.model.GroupUser,
+        },
+      ],
+    });
+    if (!group) this.ctx.throw(400, '10025');
+    // 我是否在群聊中
+    const groupUser = group.groupUser;
+    const userIds = groupUser.map(item => item.user_id);
+    const exist = userIds.includes(userId);
+    if (!exist) this.ctx.throw(400, '10022');
+    // 对方是不是群成员
+    const friendExists = userId.include(friendId);
+    if (!friendExists) this.ctx.throw('10022');
+    // 我是不是群主
+    const groupUserId = group.user_id;
+    if (groupUserId !== userId) this.ctx.throw(400, '10033');
+    // 踢出群聊
+    await this.ctx.model.GroupUser.destroy({
+      where: {
+        user_id: userId,
+        group_id: groupId,
+      },
+    });
+    // 消息推送(略)
+
+    this.ctx.apiSuccess({}, '操作成功');
   }
 }
 

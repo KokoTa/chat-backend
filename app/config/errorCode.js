@@ -2,7 +2,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-03 12:25:48
- * @LastEditTime: 2020-11-25 15:43:12
+ * @LastEditTime: 2020-12-03 11:51:08
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/config/errorCode.js
@@ -39,4 +39,6 @@ module.exports = {
   10029: '请传入对应类型值',
   10030: '朋友圈新建失败',
   10031: '你没有权限这样做',
+  10032: '不能踢自己',
+  10033: '您不是群主',
 };

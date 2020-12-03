@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-11 14:43:22
- * @LastEditTime: 2020-11-24 16:03:52
+ * @LastEditTime: 2020-12-03 11:44:37
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/controller/ws.js
@@ -241,6 +241,28 @@ class WsController extends Controller {
     });
 
     await this.service.ws.recall();
+  }
+
+  /**
+   * @api {post} /api/ws/kick 将某人踢出群聊
+   * @apiGroup WsGroup
+   * @apiVersion  1.0.0
+   */
+  async kick() {
+    this.ctx.validate({
+      to_id: {
+        type: 'int',
+        required: true,
+        desc: '好友 ID',
+      },
+      group_id: {
+        type: 'int',
+        required: true,
+        desc: '群 ID',
+      },
+    });
+
+    await this.service.ws.kick();
   }
 }
 

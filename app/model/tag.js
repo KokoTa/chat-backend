@@ -1,3 +1,11 @@
+/*
+ * @Author: KokoTa
+ * @Date: 2020-11-17 15:19:29
+ * @LastEditTime: 2020-12-03 14:49:25
+ * @LastEditors: KokoTa
+ * @Description:
+ * @FilePath: /uni-wx-be/app/model/tag.js
+ */
 'use strict';
 
 module.exports = app => {
@@ -74,5 +82,18 @@ module.exports = app => {
     }],
   };
   const TagModel = sequelize.define('tag_model', attributes, options);
+
+  TagModel.associate = () => {
+    // 具体解释见 friend 模型
+    TagModel.belongsToMany(app.model.Friend, {
+      sourceKey: 'id',
+      foreignKey: 'tag_id',
+      otherKey: 'friend_id',
+      targetKey: 'id',
+      through: app.model.FriendTag, // 这里传模型对象或者模型名
+      as: 'friends',
+    });
+  };
+
   return TagModel;
 };

@@ -6,7 +6,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-13 15:12:26
- * @LastEditTime: 2020-11-18 16:01:13
+ * @LastEditTime: 2020-12-03 00:40:05
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/html/chat.js
@@ -29,6 +29,8 @@ class Chat {
     this.toGroupDetail = {}; // 目标群聊对象
     this.chatList = []; // 单聊记录
     this.groupChatList = []; // 群聊记录
+    this.reconnectTimes = 5; // 允许重连的次数
+    this.canReconnect = true; // 是否允许重连
   }
 
   /**
@@ -72,9 +74,10 @@ class Chat {
     console.log('close');
     this.isOnline = false;
     this.socket = null;
+    this.reconnect();
   }
   onerror(err) {
-    console.log(err);
+    console.log('err', err);
     this.isOnline = false;
     this.socket = null;
   }
@@ -86,6 +89,16 @@ class Chat {
     this.isOnline = false;
     this.socket.close();
     this.socket = null;
+    this.canReconnect = false;
+  }
+  reconnect() {
+    setTimeout(() => {
+      if (this.canReconnect && this.reconnectTimes > 0) {
+        this.connect();
+        this.reconnectTimes--;
+        console.log('重连中，剩余重连次数: ', this.reconnectTimes);
+      }
+    }, 3000);
   }
 
   /**
@@ -97,16 +110,20 @@ class Chat {
     const { id: groupId } = this.toGroupDetail;
     const { type, data } = params;
     try {
-      const result = await axios.post(this.socketSendUrl, {
-        to_id: chatType === 'user' ? userId : groupId,
-        chat_type: chatType,
-        type,
-        data,
-      }, {
-        headers: {
-          token: this.token,
+      const result = await axios.post(
+        this.socketSendUrl,
+        {
+          to_id: chatType === 'user' ? userId : groupId,
+          chat_type: chatType,
+          type,
+          data,
         },
-      });
+        {
+          headers: {
+            token: this.token,
+          },
+        }
+      );
       return result && result.data && result.data;
     } catch (error) {
       return error && error.response && error.response.data;
