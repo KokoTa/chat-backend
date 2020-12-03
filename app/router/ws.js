@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-11 14:41:59
- * @LastEditTime: 2020-12-03 12:06:20
+ * @LastEditTime: 2020-12-03 22:13:32
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/router/ws.js
@@ -36,19 +36,15 @@ module.exports = app => {
         return ctx.websocket.close();
       }
 
-      // 用户上线，上线的用户都放在 app.ws.user 对象中
+      // 上线的用户放在 app.ws.user 对象中
       app.ws.user = app.ws.user ? app.ws.user : {};
-      const userDict = app.ws.user;
-      // 下线其他设备连接
-      if (userDict[user.id]) {
-        userDict[user.id].send(JSON.stringify({ msg: '你的账号在其他设备登录' }));
-        userDict[user.id].close();
-      }
-
-      // 记录当前用户
+      // 用户上线
+      ctx.online(user.id, process.pid);
+      // 记录当前连接用户ID
       ctx.websocket.user_id = user.id;
       // 记录当前设备连接
-      userDict[user.id] = ctx.websocket;
+      app.ws.user[user.id] = ctx.websocket;
+
       await next();
     } catch (error) {
       ctx.websocket.send(JSON.stringify({ msg: error }));

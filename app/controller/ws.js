@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-11 14:43:22
- * @LastEditTime: 2020-12-03 11:44:37
+ * @LastEditTime: 2020-12-03 22:18:04
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/controller/ws.js
@@ -29,12 +29,16 @@ class WsController extends Controller {
       })
       .on('close', (code, reason) => {
         console.log('用户下线', code, reason);
-        // app.ws.user 存放了所有在线用户的 id 及对应的设备连接
+        // app.ws.user 存放了在线用户的 id 及对应的设备连接
         const { user_id } = this.ctx.websocket;
-        const userDict = this.app.ws.user;
-        if (userDict && userDict[user_id]) {
-          delete userDict[user_id];
+        const socketList = this.app.ws.user;
+        // 移除 socket
+        if (socketList && socketList[user_id]) {
+          delete socketList[user_id];
         }
+        // 从 redis 中移除上线状态
+        const key = `online_${user_id}`;
+        this.service.cache.remove(key);
       });
   }
 
