@@ -2,7 +2,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-04 17:25:51
- * @LastEditTime: 2020-11-05 11:44:24
+ * @LastEditTime: 2020-12-04 10:12:21
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/middleware/auth.js
@@ -20,6 +20,7 @@ module.exports = (option, app) => {
     if (!redisToken || redisToken !== token) ctx.throw(401, '10007');
     // 判断用户是否被禁用
     user = await ctx.model.User.findByPk(user.id);
+    if (!user) ctx.throw(400, '10000');
     if (user.status === 0) ctx.throw(400, '10008');
     // 把用户信息挂载到上下文
     ctx.userInfo = user;

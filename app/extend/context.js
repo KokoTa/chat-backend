@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-03 17:49:01
- * @LastEditTime: 2020-12-03 22:14:00
+ * @LastEditTime: 2020-12-04 12:18:05
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/extend/context.js
@@ -75,6 +75,10 @@ module.exports = {
     // 消息撤回需要改动缓存中对应消息的 is_remove 属性，online 和 offline 都要改
     // 但这里出于性能考虑，不建议这样做，可以让前端自己去做判断
     // if (message.type === 'recall') {}
+
+    // 发送消息后，前端会接收到消息，如果没有会话则会根据消息内容生成会话对象并加入到会话列表中
+    // 会话对象会存储诸如：是否置顶、是否显示昵称、消息免打扰、未读数、最新一条消息的内容和类型等
+    // 会话列表会保存在本地，前端打开时会初始化渲染会话列表
   },
   async getQRCode(text = 'hello word') {
     const url = await QRCode.toDataURL(text);

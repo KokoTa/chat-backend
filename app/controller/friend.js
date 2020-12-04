@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-11-09 16:07:15
- * @LastEditTime: 2020-11-25 17:53:03
+ * @LastEditTime: 2020-12-04 10:30:19
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/app/controller/friend.js
@@ -129,6 +129,14 @@ class FriendController extends Controller {
       where: {
         user_id: friend_id,
         friend_id: id,
+      },
+    });
+
+    // 删除好友申请
+    await this.ctx.model.Apply.destroy({
+      where: {
+        user_id: id,
+        friend_id,
       },
     });
 
