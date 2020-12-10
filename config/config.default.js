@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-10-29 15:07:21
- * @LastEditTime: 2020-11-25 09:37:53
+ * @LastEditTime: 2020-12-10 19:56:24
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/config/config.default.js
@@ -93,6 +93,13 @@ module.exports = appInfo => {
         timeout: '60s',
       },
     },
+    // 模板引擎配置
+    view: {
+      defaultViewEngine: 'nunjucks',
+      mapping: {
+        '.nj': 'nunjucks',
+      },
+    },
     // 错误处理，可以用中间件来实现，但是中间件无法完全捕获所有错误（比如无法捕获 json 解析错误）
     onerror: {
       all(err, ctx) {
@@ -125,6 +132,7 @@ module.exports = appInfo => {
       /swagger/,
       /^\/api\/ws$/,
       '/api/upload',
+      /^\/view/,
     ],
   };
 

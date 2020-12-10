@@ -1,7 +1,7 @@
 /*
  * @Author: KokoTa
  * @Date: 2020-10-29 15:07:21
- * @LastEditTime: 2020-11-23 12:08:51
+ * @LastEditTime: 2020-12-10 19:39:02
  * @LastEditors: KokoTa
  * @Description:
  * @FilePath: /uni-wx-be/config/plugin.js
@@ -45,5 +45,13 @@ module.exports = {
   oss: {
     enable: true,
     package: 'egg-oss',
+  },
+  nunjucks: {
+    enable: true,
+    package: 'egg-view-nunjucks',
+  },
+  sessionRedis: {
+    enable: true,
+    package: 'egg-session-redis',
   },
 };
